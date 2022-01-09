@@ -1,28 +1,15 @@
- import React from 'react';
+import React from 'react';
+import {Button, View} from 'react-native';
 
- import {
-   SafeAreaView,
-   ScrollView,
-   StatusBar,
-   StyleSheet,
-   Text,
-   useColorScheme,
-   View,
- } from 'react-native';
- ``
- import styles from './styles';
+const Home = ({navigation}) => {
+  return (
+    <View>
+      <Button
+        title="Go to  Deatails Page"
+        onPress={() => navigation.navigate('Details')}
+      />
+    </View>
+  );
+};
 
-
- const App = () => {
- 
-   return (
-       <ScrollView
-         contentInsetAdjustmentBehavior="automatic">
-         <Text style={styles.text}> Welcome To FoodMenuApp </Text>
-         <View/>
-       </ScrollView>
-   );
- };
- 
- export default App;
- 
+export default Home;
