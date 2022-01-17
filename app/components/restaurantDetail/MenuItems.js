@@ -3,7 +3,6 @@
 import React from 'react';
 import {View, Text, StyleSheet, Image, ScrollView} from 'react-native';
 import {Divider} from 'react-native-elements';
-import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import {useDispatch} from 'react-redux';
 import {useSelector} from 'react-redux';
 import Counter from 'react-native-counters';
@@ -33,7 +32,7 @@ export default function MenuItems({
     dispatch({
       type: 'ADD_TO_CART',
       payload: {
-        ...{id: item.id, qty: number, addons: [], price: '$10'},
+        ...{id: item.id, qty: number, addons: [], price: 10},
         restaurantName: restaurantName,
       },
     });
@@ -51,17 +50,9 @@ export default function MenuItems({
             {hideCheckbox ? (
               <></>
             ) : (
-              <>
-                {/* <BouncyCheckbox
-                  iconStyle={{borderColor: 'lightgray', borderRadius: 0}}
-                  fillColor="green"
-                  isChecked={isFoodInCart(food, cartItems)}
-                  onPress={checkboxValue => selectItem(food, checkboxValue)}
-                /> */}
-                <Counter
-                  onChange={(number, type) => selectItem(food, number, type)}
-                />
-              </>
+              <Counter
+                onChange={(number, type) => selectItem(food, number, type)}
+              />
             )}
             <FoodInfo food={food} />
             <FoodImage food={food} marginLeft={marginLeft ? marginLeft : 0} />

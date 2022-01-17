@@ -4,7 +4,7 @@ import {View, Text} from 'react-native';
 
 export default function OrderItem({item}) {
   const {title, qty, price} = item;
-  const totalPrice = qty * Number(price.replace('$', ''));
+  const totalPrice = qty * price;
   return (
     <View
       style={{

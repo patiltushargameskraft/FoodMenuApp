@@ -14,7 +14,7 @@ export default function ViewCart({navigation}) {
   );
 
   const total = items
-    .map(item => item.qty * Number(item.price.replace('$', '')))
+    .map(item => item.qty * item.price)
     .reduce((prev, curr) => prev + curr, 0);
 
   const totalUSD = total.toLocaleString('en', {
