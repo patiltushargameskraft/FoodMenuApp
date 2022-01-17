@@ -43,17 +43,15 @@ export default function RestaurantItems({navigation, ...props}) {
           style={{marginBottom: 30}}
           onPress={() =>
             navigation.navigate('RestaurantDetail', {
+              resId: restaurant.id,
               name: restaurant.name,
               image: restaurant.image_url,
-              price: restaurant.price,
-              reviews: restaurant.review_count,
-              rating: restaurant.rating,
-              categories: restaurant.categories,
+              description: restaurant.description,
             })
           }>
           <View style={{marginTop: 10, padding: 15, backgroundColor: 'white'}}>
             <RestaurantImage image={restaurant.image_url} />
-            <RestaurantInfo name={restaurant.name} rating={restaurant.rating} />
+            <RestaurantInfo name={restaurant.name} />
           </View>
         </TouchableOpacity>
       ))}
@@ -86,17 +84,6 @@ const RestaurantInfo = props => (
     <View>
       <Text style={{fontSize: 15, fontWeight: 'bold'}}>{props.name}</Text>
       <Text style={{fontSize: 13, color: 'gray'}}>30-45 • min</Text>
-    </View>
-    <View
-      style={{
-        backgroundColor: '#eee',
-        height: 30,
-        width: 30,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 15,
-      }}>
-      <Text>{props.rating}</Text>
     </View>
   </View>
 );
