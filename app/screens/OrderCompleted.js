@@ -23,7 +23,7 @@ export default function OrderCompleted() {
   );
 
   const total = items
-    .map(item => Number(item.price.replace('$', '')))
+    .map(item => item.qty * Number(item.price.replace('$', '')))
     .reduce((prev, curr) => prev + curr, 0);
 
   const totalUSD = total.toLocaleString('en', {

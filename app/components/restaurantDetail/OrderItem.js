@@ -3,7 +3,8 @@ import React from 'react';
 import {View, Text} from 'react-native';
 
 export default function OrderItem({item}) {
-  const {title, price} = item;
+  const {title, qty, price} = item;
+  const totalPrice = qty * Number(price.replace('$', ''));
   return (
     <View
       style={{
@@ -14,7 +15,7 @@ export default function OrderItem({item}) {
         borderBottomColor: '#999',
       }}>
       <Text style={{fontWeight: '600', fontSize: 16}}>{title}</Text>
-      <Text style={{opacity: 0.7, fontSize: 16}}>{price}</Text>
+      <Text style={{opacity: 0.7, fontSize: 16}}>{totalPrice}</Text>
     </View>
   );
 }
