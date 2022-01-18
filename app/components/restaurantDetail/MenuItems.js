@@ -6,6 +6,7 @@ import {Divider} from 'react-native-elements';
 import {useDispatch} from 'react-redux';
 import {useSelector} from 'react-redux';
 import Counter from 'react-native-counters';
+import axios from 'axios';
 
 const styles = StyleSheet.create({
   menuItemStyle: {
@@ -28,14 +29,16 @@ export default function MenuItems({
 }) {
   const dispatch = useDispatch();
 
-  const selectItem = (item, number, type) =>
+  const selectItem = (item, number, type) => {
     dispatch({
       type: 'ADD_TO_CART',
       payload: {
         ...{id: item.id, qty: number, addons: [], price: item.price},
         restaurantId: restaurantId,
+        type: type,
       },
     });
+  };
 
   const cartItems = useSelector(state => state.cartReducer.selectedItems.items);
 

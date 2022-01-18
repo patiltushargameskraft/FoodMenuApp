@@ -16,6 +16,7 @@ export default function Home({navigation}) {
       setPromotedRes(res.data.data);
     });
   }, []);
+
   return (
     <SafeAreaView style={{backgroundColor: '#eee', flex: 1}}>
       <Categories />
