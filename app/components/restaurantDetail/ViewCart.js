@@ -9,7 +9,7 @@ export default function ViewCart({navigation}) {
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const {items, restaurantName} = useSelector(
+  const {items, restaurantId} = useSelector(
     state => state.cartReducer.selectedItems,
   );
 
@@ -71,7 +71,7 @@ export default function ViewCart({navigation}) {
       <>
         <View style={styles.modalContainer}>
           <View style={styles.modalCheckoutContainer}>
-            <Text style={styles.restaurantName}>{restaurantName}</Text>
+            <Text style={styles.restaurantName}>{restaurantId}</Text>
             {items.map((item, index) => (
               <OrderItem key={index} item={item} />
             ))}

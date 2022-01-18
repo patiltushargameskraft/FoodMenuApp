@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
 });
 
 export default function MenuItems({
-  restaurantName,
+  restaurantId,
   foods,
   hideCheckbox,
   marginLeft,
@@ -32,15 +32,21 @@ export default function MenuItems({
     dispatch({
       type: 'ADD_TO_CART',
       payload: {
-        ...{id: item.id, qty: number, addons: [], price: 10},
-        restaurantName: restaurantName,
+        ...{id: item.id, qty: number, addons: [], price: item.price},
+        restaurantId: restaurantId,
       },
     });
 
   const cartItems = useSelector(state => state.cartReducer.selectedItems.items);
 
-  const isFoodInCart = (food, cartItems) =>
-    Boolean(cartItems.find(item => item.id === food.id));
+  const isFoodInCart = (food, cartItems) => {
+    const idx = cartItems.findIndex(item => item.id === food.id);
+    if (idx === -1) {
+      return 0;
+    } else {
+      return cartItems[idx].qty;
+    }
+  };
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
@@ -52,6 +58,7 @@ export default function MenuItems({
             ) : (
               <Counter
                 onChange={(number, type) => selectItem(food, number, type)}
+                start={isFoodInCart(food, cartItems)}
               />
             )}
             <FoodInfo food={food} />
@@ -69,7 +76,7 @@ export default function MenuItems({
 }
 
 const FoodInfo = props => (
-  <View style={{width: 240, justifyContent: 'space-evenly', marginLeft: 10}}>
+  <View style={{width: 150, justifyContent: 'space-evenly', marginLeft: 10}}>
     <Text style={styles.titleStyle}>{props.food.title}</Text>
     <Text>{props.food.description}</Text>
     <Text>{props.food.price}</Text>
@@ -79,7 +86,7 @@ const FoodInfo = props => (
 const FoodImage = ({marginLeft, ...props}) => (
   <View>
     <Image
-      source={{uri: props.food.image}}
+      source={{uri: props.food.image_url}}
       style={{
         width: 100,
         height: 100,

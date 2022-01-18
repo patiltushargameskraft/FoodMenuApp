@@ -1,5 +1,5 @@
 let defaultState = {
-  selectedItems: {items: [], restaurantName: ''},
+  selectedItems: {items: [], restaurantId: ''},
 };
 
 let cartReducer = (state = defaultState, action) => {
@@ -7,7 +7,9 @@ let cartReducer = (state = defaultState, action) => {
     case 'ADD_TO_CART': {
       let newState = {...state};
 
-      console.log(action.payload.id);
+      if (newState.selectedItems.restaurantId !== action.payload.restaurantId) {
+        newState.selectedItems.items = [];
+      }
 
       const idx = state.selectedItems.items.findIndex(
         item => item.id === action.payload.id,
@@ -18,9 +20,10 @@ let cartReducer = (state = defaultState, action) => {
       } else {
         newState.selectedItems.items.push(action.payload);
       }
+
       newState.selectedItems = {
         items: newState.selectedItems.items.filter(item => item.qty !== 0),
-        restaurantName: action.payload.restaurantName,
+        restaurantId: action.payload.restaurantId,
       };
 
       console.log(newState.selectedItems, '👉');
