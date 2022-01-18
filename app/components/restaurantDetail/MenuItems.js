@@ -35,7 +35,6 @@ export default function MenuItems({
       payload: {
         ...{id: item.id, qty: number, addons: [], price: item.price},
         restaurantId: restaurantId,
-        type: type,
       },
     });
   };
