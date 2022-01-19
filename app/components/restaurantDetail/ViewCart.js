@@ -3,12 +3,14 @@ import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import {View, Text, TouchableOpacity, Modal, StyleSheet} from 'react-native';
 import {Button} from 'react-native-elements/dist/buttons/Button';
+import {ScrollView} from 'react-native-gesture-handler';
 import {useSelector} from 'react-redux';
 import OrderItem from './OrderItem';
 
 export default function ViewCart({navigation}) {
   const [modalVisible, setModalVisible] = useState(false);
   const [data, setData] = useState([]);
+  const [total, setTotal] = useState(Number(0));
 
   const {items, restaurantId} = useSelector(
     state => state.cartReducer.selectedItems,
@@ -17,13 +19,12 @@ export default function ViewCart({navigation}) {
   useEffect(() => {
     axios.get('http://localhost:3000/cart/1').then(res => {
       setData(res.data.data);
-      console.log(res.data.data);
+      setTotal(
+        data.map(item => item.price).reduce((prev, curr) => prev + curr, 0),
+      );
+      //console.log(total);
     });
   }, []);
-
-  const total = items
-    .map(item => item.qty * item.price)
-    .reduce((prev, curr) => prev + curr, 0);
 
   const totalINR = total.toLocaleString('en', {
     style: 'currency',
@@ -69,14 +70,14 @@ export default function ViewCart({navigation}) {
     return (
       <>
         <View style={styles.modalContainer}>
-          <View style={styles.modalCheckoutContainer}>
+          <ScrollView style={styles.modalCheckoutContainer}>
             <Text style={styles.restaurantName}>{restaurantId}</Text>
             <Button
               style={{backgroundColor: '#000'}}
               title="view menu"
               onPress={() => setModalVisible(false)}
             />
-            {items.map((item, index) => (
+            {data.map((item, index) => (
               <OrderItem key={index} item={item} />
             ))}
             <View style={styles.subtotalContainer}>
@@ -111,7 +112,7 @@ export default function ViewCart({navigation}) {
                 </Text>
               </TouchableOpacity>
             </View>
-          </View>
+          </ScrollView>
         </View>
       </>
     );

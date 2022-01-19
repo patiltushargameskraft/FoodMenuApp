@@ -18,7 +18,7 @@ export default function OrderCompleted() {
     ],
   });
 
-  const {items, restaurantName} = useSelector(
+  const {items, restaurantId} = useSelector(
     state => state.cartReducer.selectedItems,
   );
 
@@ -48,14 +48,9 @@ export default function OrderCompleted() {
           loop={false}
         />
         <Text style={{fontSize: 20, fontWeight: 'bold'}}>
-          Your order at {restaurantName} has been placed for {totalUSD}
+          Your order at {restaurantId} has been placed for {totalUSD}
         </Text>
         <ScrollView>
-          <MenuItems
-            foods={lastOrder.items}
-            hideCheckbox={true}
-            marginLeft={10}
-          />
           <LottieView
             style={{height: 200, alignSelf: 'center'}}
             source={require('../assets/animations/cooking.json')}

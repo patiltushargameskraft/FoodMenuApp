@@ -13,30 +13,28 @@ import AddOnItem from './AddOnItem';
 
 const foods = [
   {
-    id : 1,
+    id: 1,
     title: 'Extra',
     description: 'Cheese',
     price: '$0',
     image:
       'https://www.modernhoney.com/wp-content/uploads/2019/08/Classic-Lasagna-14-scaled.jpg',
-  
-    },
+  },
   {
-    id : 2,
+    id: 2,
     title: 'Sauce',
     description: '🔥',
     price: '$0',
     image: 'https://i.ytimg.com/vi/BKxGodX9NGg/maxresdefault.jpg',
   },
   {
-    id : 3,
+    id: 3,
     title: 'Random',
-    description:'Santa',
+    description: 'Santa',
     price: '$0',
     image:
       'https://i2.wp.com/chilipeppermadness.com/wp-content/uploads/2020/11/Chilaquales-Recipe-Chilaquiles-Rojos-1.jpg',
   },
-  
 ];
 
 const ModalPoup = ({visible, children}) => {
@@ -83,15 +81,14 @@ const AddOn = () => {
           <View style={styles.header}>
             <TouchableOpacity onPress={() => setVisible(false)}>
               <Image
-               source={require('../../assets/images/x.png')}
+                source={require('../../assets/images/x.png')}
                 style={{height: 30, width: 30}}
               />
             </TouchableOpacity>
           </View>
         </View>
         <View style={{alignItems: 'center'}}>
-        <AddOnItem  foods={foods} />
-          
+          <AddOnItem foods={foods} />
         </View>
 
         <Text style={{marginVertical: 30, fontSize: 20, textAlign: 'center'}}>
