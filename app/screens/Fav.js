@@ -21,20 +21,16 @@ export default function Home({navigation}) {
 
   return (
     <SafeAreaView style={{backgroundColor: '#eee', flex: 1}}>
-       <View style={{marginTop:20,alignItems: 'center'}}> 
-          <Text style={{fontSize: 25, fontWeight: 'bold'}}>Favorite Restaurant</Text>
-        <Divider width={1} />
-        </View>
       <ScrollView showsVerticalScrollIndicator={false}>
-      
+      <Text style={{
+          marginLeft:10,
+          fontSize: 30,
+          fontWeight: 'bold',
+        }}>Fav</Text>
         <RestaurantItems restaurantData={fav} navigation={navigation} />
       </ScrollView>
-      
       <Divider width={1} />
-      
-            <BottomTabs navigation={navigation}/>
-      
-      
+      <BottomTabs navigation={navigation}/>
     </SafeAreaView>
   );
 }
