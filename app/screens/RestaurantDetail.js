@@ -7,6 +7,9 @@ import About from '../components/restaurantDetail/About';
 import MenuItems from '../components/restaurantDetail/MenuItems';
 import axios from 'axios';
 import {Button} from 'react-native-elements/dist/buttons/Button';
+import ViewCart from '../components/restaurantDetail/ViewCart';
+import BottomTabs from '../components/home/BottomTabs';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 export default function RestaurantDetail({route, navigation}) {
   const [foods, setfoods] = useState([]);
@@ -34,6 +37,8 @@ export default function RestaurantDetail({route, navigation}) {
         foods={foods}
         navigation={navigation}
       />
+      <Divider width={1} />
+      <BottomTabs navigation={navigation} />
     </View>
   );
 }

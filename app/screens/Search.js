@@ -22,6 +22,7 @@ export default function Search({navigation}) {
       <Divider width={1} />
       <Categories activeSearch={activeSearch} changeSearch = {changeSearch}/>
       <Divider width={1} />
+      <BottomTabs navigation={navigation}/>
     </SafeAreaView>
   );
 }

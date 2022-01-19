@@ -79,7 +79,7 @@ export default function MenuItems({
 
 const FoodInfo = props => (
   <View style={{width: 150, justifyContent: 'space-evenly', marginLeft: 10}}>
-    <Text style={styles.titleStyle}>{props.food.title}</Text>
+    <Text style={styles.titleStyle}>{props.food.name}</Text>
     <Text>{props.food.description}</Text>
     <Text>{props.food.price}</Text>
   </View>
