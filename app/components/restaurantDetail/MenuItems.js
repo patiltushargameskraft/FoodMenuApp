@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
 });
 
 export default function MenuItems({
+  restaurantId,
   restaurantName,
   foods,
   hideCheckbox,
@@ -41,7 +42,7 @@ export default function MenuItems({
 
   const isFoodInCart = (food, cartItems) =>
     Boolean(cartItems.find(item => item.id === food.id));
-
+  
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       {foods.map((food, index) => (
@@ -70,7 +71,7 @@ export default function MenuItems({
 
 const FoodInfo = props => (
   <View style={{width: 240, justifyContent: 'space-evenly', marginLeft: 10}}>
-    <Text style={styles.titleStyle}>{props.food.title}</Text>
+    <Text style={styles.titleStyle}>{props.food.name}</Text>
     <Text>{props.food.description}</Text>
     <Text>{props.food.price}</Text>
   </View>
@@ -79,7 +80,7 @@ const FoodInfo = props => (
 const FoodImage = ({marginLeft, ...props}) => (
   <View>
     <Image
-      source={{uri: props.food.image}}
+      source={{uri: props.food.image_url}}
       style={{
         width: 100,
         height: 100,

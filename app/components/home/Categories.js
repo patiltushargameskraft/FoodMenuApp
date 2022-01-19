@@ -1,39 +1,34 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {View, Text, Image, ScrollView} from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+const checkMark = require('../../assets/images/tick-mark.png')
+
 
 const items = [
   {
     image: require('../../assets/images/shopping-bag.png'),
-    text: 'Pick-up',
+    text: 'Dish',
   },
   {
     image: require('../../assets/images/soft-drink.png'),
-    text: 'Soft Drinks',
+    text: 'Cuisine',
   },
   {
     image: require('../../assets/images/bread.png'),
-    text: 'Bakery Items',
+    text: 'Categories',
   },
   {
     image: require('../../assets/images/fast-food.png'),
-    text: 'Fast Foods',
+    text: 'Description',
   },
   {
     image: require('../../assets/images/deals.png'),
-    text: 'Deals',
-  },
-  {
-    image: require('../../assets/images/coffee.png'),
-    text: 'Coffee & Tea',
-  },
-  {
-    image: require('../../assets/images/desserts.png'),
-    text: 'Desserts',
+    text: 'Restaurants',
   },
 ];
 
-export default function Categories() {
+export default function Categories(props) {
   return (
     <View
       style={{
@@ -43,10 +38,12 @@ export default function Categories() {
         paddingLeft: 20,
       }}>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        <Text style={{fontWeight: 'bold', alignSelf: 'center'}}>From  </Text>
         {items.map((item, index) => (
-          <View key={index} style={{alignItems: 'center', marginRight: 30}}>
+          <TouchableOpacity key = {index} activeOpacity = { .5 } onPress={() => props.changeSearch(index) }>
+          <View style={{alignItems: 'center', marginRight: 30}}>
             <Image
-              source={item.image}
+              source={props.activeSearch === index ? checkMark: item.image}
               style={{
                 width: 50,
                 height: 40,
@@ -55,6 +52,7 @@ export default function Categories() {
             />
             <Text style={{fontSize: 13, fontWeight: '900'}}>{item.text}</Text>
           </View>
+          </TouchableOpacity>
         ))}
       </ScrollView>
     </View>

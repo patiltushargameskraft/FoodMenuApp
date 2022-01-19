@@ -122,6 +122,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				CBC3CAACD26EE61427C2F245 /* Pods */,
+				BF51C21EAD3541B288B84265 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -135,6 +136,14 @@
 				00E356EE1AD99517003FC87E /* FoodMenuAppTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		BF51C21EAD3541B288B84265 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Resources;
+			path = "";
 			sourceTree = "<group>";
 		};
 		CBC3CAACD26EE61427C2F245 /* Pods */ = {
