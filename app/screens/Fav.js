@@ -17,8 +17,6 @@ export default function Home({navigation}) {
     });
   }, []);
 
-  
-
   return (
     <SafeAreaView style={{backgroundColor: '#eee', flex: 1}}>
       <ScrollView showsVerticalScrollIndicator={false}>
