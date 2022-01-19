@@ -4,8 +4,9 @@ import React, {useEffect, useState} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {Button} from 'react-native-elements/dist/buttons/Button';
 import {ScrollView} from 'react-native-gesture-handler';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import OrderItem from '../components/restaurantDetail/OrderItem';
+import Counter from 'react-native-counters';
 
 export default function ViewCart({navigation}) {
   const [data, setData] = useState([]);
@@ -15,7 +16,7 @@ export default function ViewCart({navigation}) {
     axios.get('http://localhost:3000/cart/1').then(res => {
       setData(res.data.data);
     });
-  }, []);
+  }, [data]);
 
   const total = items => {
     return items.map(item => item.price).reduce((prev, curr) => prev + curr, 0);
@@ -23,6 +24,7 @@ export default function ViewCart({navigation}) {
 
   const styles = StyleSheet.create({
     modalContainer: {
+      margin: 20,
       flex: 1,
       justifyContent: 'flex-end',
       backgroundColor: 'rgba(0,0,0,0.7)',
@@ -56,6 +58,32 @@ export default function ViewCart({navigation}) {
     },
   });
 
+  const dispatch = useDispatch();
+
+  const selectItem = (item, number, counterType) => {
+    console.log(item + '##########################');
+    dispatch({
+      type: 'ADD_TO_CART',
+      payload: {
+        ...{id: item.dish_id, qty: number, addons: [], price: item.price},
+        restaurantId: restaurantId,
+        counterType: counterType,
+        orderId: item.order_id,
+      },
+    });
+  };
+
+  const cartItems = useSelector(state => state.cartReducer.selectedItems.items);
+
+  const isFoodInCart = (food, cartItems) => {
+    const idx = cartItems.findIndex(item => item.id === food.id);
+    if (idx === -1) {
+      return 0;
+    } else {
+      return cartItems[idx].qty;
+    }
+  };
+
   return (
     <>
       <View style={styles.modalContainer}>
@@ -67,7 +95,21 @@ export default function ViewCart({navigation}) {
             onPress={() => navigation.navigate('Home')}
           />
           {data.map((item, index) => (
-            <OrderItem key={index} item={item} />
+            <View
+              key={index}
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-evenly',
+                padding: 10,
+                borderBottomWidth: 1,
+                borderBottomColor: '#999',
+              }}>
+              <Counter
+                onChange={(number, type) => selectItem(item, number, type)}
+                start={item.quantity}
+              />
+              <OrderItem item={item} />
+            </View>
           ))}
           <View style={styles.subtotalContainer}>
             <Text style={styles.subtotalText}>Subtotal</Text>
@@ -77,6 +119,7 @@ export default function ViewCart({navigation}) {
             <TouchableOpacity
               style={{
                 marginTop: 20,
+                marginBottom: 50,
                 backgroundColor: 'black',
                 alignItems: 'center',
                 padding: 13,

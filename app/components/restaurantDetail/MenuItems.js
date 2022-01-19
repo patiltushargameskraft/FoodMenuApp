@@ -23,19 +23,22 @@ const styles = StyleSheet.create({
 
 export default function MenuItems({
   restaurantId,
-  restaurantName,
   foods,
-  hideCheckbox,
   marginLeft,
+  navigation,
 }) {
   const dispatch = useDispatch();
 
-  const selectItem = (item, number, type) => {
+  const selectItem = (item, number, counterType) => {
+    if (counterType === '-') {
+      navigation.navigate('ViewCart');
+    }
     dispatch({
       type: 'ADD_TO_CART',
       payload: {
         ...{id: item.id, qty: number, addons: [], price: item.price},
         restaurantId: restaurantId,
+        counterType: counterType,
       },
     });
   };
@@ -56,14 +59,10 @@ export default function MenuItems({
       {foods.map((food, index) => (
         <View key={index}>
           <View style={styles.menuItemStyle}>
-            {hideCheckbox ? (
-              <></>
-            ) : (
-              <Counter
-                onChange={(number, type) => selectItem(food, number, type)}
-                start={isFoodInCart(food, cartItems)}
-              />
-            )}
+            <Counter
+              onChange={(number, type) => selectItem(food, number, type)}
+              start={isFoodInCart(food, cartItems)}
+            />
             <FoodInfo food={food} />
             <FoodImage food={food} marginLeft={marginLeft ? marginLeft : 0} />
           </View>

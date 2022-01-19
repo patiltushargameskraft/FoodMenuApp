@@ -29,7 +29,11 @@ export default function RestaurantDetail({route, navigation}) {
         onPress={() => navigation.navigate('ViewCart')}
       />
       <Divider width={1.8} style={{marginVertical: 20}} />
-      <MenuItems restaurantId={route.params.resId} foods={foods} />
+      <MenuItems
+        restaurantId={route.params.resId}
+        foods={foods}
+        navigation={navigation}
+      />
     </View>
   );
 }
