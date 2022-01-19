@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 import {View, Text, SafeAreaView, ScrollView} from 'react-native';
 import {useSelector} from 'react-redux';
 import LottieView from 'lottie-react-native';
-import{ListItem, SearchBar} from 'react-native-elements';
+import {ListItem, SearchBar} from 'react-native-elements';
 import MenuItems from '../components/restaurantDetail/MenuItems';
 
 export default function OrderCompleted() {
