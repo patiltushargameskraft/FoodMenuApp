@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
 
 export default function MenuItems({
   restaurantId,
+  restaurantName,
   foods,
   hideCheckbox,
   marginLeft,
