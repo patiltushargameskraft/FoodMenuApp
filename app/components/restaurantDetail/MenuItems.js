@@ -58,11 +58,7 @@ export default function MenuItems({
   const [dishCount, setDishCount] = useState([]);
 
   useEffect(() => {
-<<<<<<< HEAD
-    console.log('Mounted');
-=======
     console.log("Mounted");
->>>>>>> 047027a4704c003daeb9d2a5b6be0360bd54ce2d
     const getData = async () => {
       const response = await Promise.all(
         foods.map(food => {
@@ -75,13 +71,6 @@ export default function MenuItems({
       console.log(response);
     };
     getData();
-<<<<<<< HEAD
-
-    return () => {
-      console.log('Unmounted');
-    };
-=======
->>>>>>> 047027a4704c003daeb9d2a5b6be0360bd54ce2d
   }, [foods]);
 
   return (
