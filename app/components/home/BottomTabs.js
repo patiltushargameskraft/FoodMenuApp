@@ -1,9 +1,9 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
-// import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
-export default function BottomTabs() {
+export default function BottomTabs({navigation}) {
   return (
     <View
       style={{
@@ -12,27 +12,16 @@ export default function BottomTabs() {
         marginHorizontal: 30,
         justifyContent: 'space-between',
       }}>
-      <Icon icon="home" text="Home" />
-      <Icon icon="search" text="Browse" />
-      <Icon icon="shopping-bag" text="Grocery" />
-      <Icon icon="receipt" text="Orders" />
-      <Icon icon="user" text="Account" />
+      <MyIcon name="home" size ={40} onPressGo={() => navigation.navigate('Home')}/>
+      <MyIcon name="search" size = {35} onPressGo={() => navigation.navigate('Search')}/>
+      <MyIcon name="heart" size ={35} onPressGo={() => {}}/>
+      <MyIcon name="shopping-cart" size={40} onPressGo={() => {}}/>
     </View>
   );
 }
 
-const Icon = props => (
-  <TouchableOpacity>
-    <View>
-      {/* <FontAwesome5
-        name={props.icon}
-        size={25}
-        style={{
-          marginBottom: 3,
-          alignSelf: 'center',
-        }}
-      /> */}
-      <Text>{props.text}</Text>
-    </View>
+const MyIcon = ({name, size, onPressGo}) => (
+  <TouchableOpacity activeOpacity = { .5 } onPress={onPressGo} >
+        <Icon name={name} size={size} color="orange" style={{alignSelf: 'center'}}/>
   </TouchableOpacity>
 );

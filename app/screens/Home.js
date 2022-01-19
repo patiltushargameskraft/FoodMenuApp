@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
 import {SafeAreaView, ScrollView} from 'react-native';
-import {Divider} from 'react-native-elements';
+import {Divider, Text} from 'react-native-elements';
 import BottomTabs from '../components/home/BottomTabs';
 import Categories from '../components/home/Categories';
 import RestaurantItems from '../components/home/RestaurantItems';
@@ -19,10 +19,15 @@ export default function Home({navigation}) {
   return (
     <SafeAreaView style={{backgroundColor: '#eee', flex: 1}}>
       <ScrollView showsVerticalScrollIndicator={false}>
+        <Text style={{
+          marginLeft:10,
+          fontSize: 30,
+          fontWeight: 'bold',
+        }}>Welcome</Text>
         <RestaurantItems restaurantData={promotedRes} navigation={navigation} />
       </ScrollView>
       <Divider width={1} />
-      <BottomTabs />
+      <BottomTabs navigation={navigation}/>
     </SafeAreaView>
   );
 }
