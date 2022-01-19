@@ -40,8 +40,9 @@ export default function RestaurantDetail({route, navigation}) {
   };
 
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <View style={styles.fixToText}>
+    <>
+    <SafeAreaView style={{marginTop: 0,flex: 1}}>
+    <View style={styles.fixToText}>
         <Button
           title=" Remove Fav   "
           style={{backgroundColor: '#000'}}
@@ -53,20 +54,19 @@ export default function RestaurantDetail({route, navigation}) {
           onPress={() => this.Add(route.params.resId)}
         />
       </View>
-
-      <View>
-        <About route={route} />
-        <Divider width={1.8} style={{marginVertical: 20}} />
-
-        <MenuItems
-          restaurantId={route.params.resId}
-          foods={foods}
-          navigation={navigation}
-        />
-      </View>
+  
+      <About route={route} />
+      <Divider width={1.8} style={{marginVertical: 20}} />
+      <MenuItems
+        restaurantId={route.params.resId}
+        restaurantName={route.params.name}
+        foods={foods}
+        navigation={navigation}
+      />
       <Divider width={1} />
       <BottomTabs navigation={navigation} />
     </SafeAreaView>
+  </>
   );
 }
 const styles = StyleSheet.create({

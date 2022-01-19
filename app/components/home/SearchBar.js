@@ -1,30 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
-  Text,
-  View,
-  FlatList,
-  ActivityIndicator,
-  Image,
   SafeAreaView,
   ScrollView
 } from 'react-native';
+import { Divider } from 'react-native-elements';
 import { Searchbar } from 'react-native-paper';
 import MenuItems from '../restaurantDetail/MenuItems';
 import RestaurantItems from './RestaurantItems';
 import axios from 'axios'
-import BottomTabs from './BottomTabs';
-import { Divider } from 'react-native-elements';
+import Categories from './Categories';
 
-const API_ENDPOINT = `http://localhost:3000/search`;
 
-export default function App({navigation, searchType}) {
-  const [isLoading, setIsLoading] = useState(false);
+
+export default function SearchBar({route, navigation}) {
   const [foods, setFoods] = useState([]);
   const [restaurants, setRestaurant] = useState([]);
   const [searchQuery, setSearchQuery] = React.useState('');
-
+  const [searchType, setsearchType] = React.useState(0)
   const typeName = ['dishName', 'cuisine', 'dishCat', 'dishDesc', 'resName'];
+
+  
+  let resId = null;
+  let resName = null;
+
+  if(route.params){
+    resId = route.params.resId;
+    resName = route.params.resName;
+    if(searchType === 4) {
+      setsearchType(0)
+    }
+  }
+
+  let API_ENDPOINT = `http://localhost:3000/search`;
+  
+  if(resId !== null) {
+    API_ENDPOINT = `http://localhost:3000/restaurant/search/${resId}`;
+  }
+
   useEffect(() => {
       const query = {
         [typeName[searchType]]: (searchQuery === null ? '': searchQuery)
@@ -34,32 +47,28 @@ export default function App({navigation, searchType}) {
           if(typeName[searchType] === 'resName'){
             setRestaurant(results.data);
           }else{
-            setFoods(results.data);
+            if(resId) setFoods(results.data.data);
+            else setFoods(results.data);
           }
+        }).catch(err => {
+          throw err;
         })
-  }, [searchQuery, searchType]);
-
-  if (isLoading) {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size="large" color="#5500dc" />
-      </View>
-    );
-  }
+  }, [searchQuery, searchType, resId]);
 
   const onChangeSearch = query => setSearchQuery(query);
-
+  console.log(typeName[searchType]);
   return (
     <SafeAreaView style={{backgroundColor: '#eee', flex: 1}}>
      <Searchbar
-      placeholder="Search"
+      placeholder={resId ? `Search in ${resName}`: 'Search'}
       onChangeText={onChangeSearch}
       value={searchQuery}
     />
       <ScrollView showsVerticalScrollIndicator={false}>
     {typeName[searchType] === 'resName' ? <RestaurantItems restaurantData = {restaurants} navigation={navigation} /> : <MenuItems foods = {foods}/>}
     </ScrollView>
-      <Divider width={1} />
+    <Divider width={1} />
+    <Categories route = {route} searchType={searchType} changeSearch = {(index) => {setsearchType(index)}}/>
     </SafeAreaView>
   );
 }
@@ -97,63 +106,3 @@ const styles = StyleSheet.create({
     padding: 10
   }
 });
-
-// import React from 'react';
-// /* eslint-disable react-native/no-inline-styles */
-// import {View, Text} from 'react-native';
-// import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
-// import Ionicons from 'react-native-vector-icons/Ionicons';
-// import AntDesign from 'react-native-vector-icons/AntDesign';
-
-// AntDesign.loadFont().then();
-// Ionicons.loadFont().then();
-
-// export default function SearchBar({cityHandler}) {
-//   return (
-//     <View style={{marginTop: 15, flexDirection: 'row'}}>
-//       <GooglePlacesAutocomplete
-//         query={{key: 'AIzaSyATiAqIXBARofRD2apZcPQ1eEWZPH4fPV4'}}
-//         onPress={(data, details = null) => {
-//           console.log(data.description);
-//           const city = data.description.split(',')[0];
-//           cityHandler(city);
-//         }}
-//         placeholder="Search"
-//         styles={{
-//           textInput: {
-//             backgroundColor: '#eee',
-//             borderRadius: 20,
-//             fontWeight: '700',
-//             marginTop: 7,
-//           },
-//           textInputContainer: {
-//             backgroundColor: '#eee',
-//             borderRadius: 50,
-//             flexDirection: 'row',
-//             alignItems: 'center',
-//             marginRight: 10,
-//           },
-//         }}
-//         renderLeftButton={() => (
-//           <View style={{marginLeft: 10}}>
-//             <Ionicons name="location-sharp" size={24} />
-//           </View>
-//         )}
-//         renderRightButton={() => (
-//           <View
-//             style={{
-//               flexDirection: 'row',
-//               marginRight: 8,
-//               backgroundColor: 'white',
-//               padding: 9,
-//               borderRadius: 30,
-//               alignItems: 'center',
-//             }}>
-//             <AntDesign name="clockcircle" size={11} style={{marginRight: 6}} />
-//             <Text>Search</Text>
-//           </View>
-//         )}
-//       />
-//     </View>
-//   );
-// }

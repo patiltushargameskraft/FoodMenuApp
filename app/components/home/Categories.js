@@ -5,7 +5,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 const checkMark = require('../../assets/images/tick-mark.png')
 
 
-const items = [
+const allCategories = [
   {
     image: require('../../assets/images/shopping-bag.png'),
     text: 'Dish',
@@ -29,6 +29,11 @@ const items = [
 ];
 
 export default function Categories(props) {
+  let items = allCategories;
+  if(typeof props.route.params !== 'undefined'){
+    items = allCategories.slice(0, 4);
+  }
+
   return (
     <View
       style={{
@@ -43,7 +48,7 @@ export default function Categories(props) {
           <TouchableOpacity key = {index} activeOpacity = { .5 } onPress={() => props.changeSearch(index) }>
           <View style={{alignItems: 'center', marginRight: 30}}>
             <Image
-              source={props.activeSearch === index ? checkMark: item.image}
+              source={props.searchType === index ? checkMark: item.image}
               style={{
                 width: 50,
                 height: 40,
