@@ -3,38 +3,44 @@ import React, {useEffect, useState} from 'react';
 import {View, Text, SafeAreaView, ScrollView} from 'react-native';
 import {useSelector} from 'react-redux';
 import LottieView from 'lottie-react-native';
-import {ListItem, SearchBar} from 'react-native-elements';
-import MenuItems from '../components/restaurantDetail/MenuItems';
+import axios from 'axios';
 
 export default function OrderCompleted() {
-  const [lastOrder, setLastOrder] = useState({
-    items: [
-      {
-        title: 'Bologna',
-        description: 'With butter lettuce, tomato and sauce bechamel',
-        price: '$13.50',
-        image:
-          'https://www.modernhoney.com/wp-content/uploads/2019/08/Classic-Lasagna-14-scaled.jpg',
-      },
-    ],
-  });
+  const {restaurantId} = useSelector(state => state.cartReducer.selectedItems);
+  const [data, setData] = useState([]);
 
-  const {items, restaurantId} = useSelector(
-    state => state.cartReducer.selectedItems,
-  );
+  const getOrders = () => {
+    axios
+      .get('http://localhost:3000/cart/1')
+      .then(res => {
+        setData(res.data.data);
+      })
+      .catch(err => {
+        console.log(err);
+        throw err;
+      });
+  };
 
-  const total = items
-    .map(item => item.qty * item.price)
-    .reduce((prev, curr) => prev + curr, 0);
+  const checkOutOrders = () => {
+    axios
+      .delete('http://localhost:3000/cart/checkOutCartItems/1')
+      .catch(err => {
+        console.log(err);
+        throw err;
+      });
+  };
 
-  const totalUSD = total.toLocaleString('en', {
-    style: 'currency',
-    currency: 'USD',
-  });
+  useEffect(() => {
+    getOrders();
+    checkOutOrders();
+  }, []);
+
+  const total = items => {
+    return items.map(item => item.price).reduce((prev, curr) => prev + curr, 0);
+  };
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
-      {/* green checkmark */}
       <View
         style={{
           margin: 15,
@@ -49,7 +55,7 @@ export default function OrderCompleted() {
           loop={false}
         />
         <Text style={{fontSize: 20, fontWeight: 'bold'}}>
-          Your order at {restaurantId} has been placed for {totalUSD}
+          Your order at {restaurantId} has been placed for {'₹' + total(data)}
         </Text>
         <ScrollView>
           <LottieView

@@ -13,7 +13,7 @@ export default function ViewCart({navigation}) {
   const [data, setData] = useState([]);
   const {restaurantId} = useSelector(state => state.cartReducer.selectedItems);
 
-  useEffect(() => {
+  const getOrders = () => {
     axios
       .get('http://localhost:3000/cart/1')
       .then(res => {
@@ -23,7 +23,11 @@ export default function ViewCart({navigation}) {
         console.log(err);
         throw err;
       });
-  }, [data]);
+  };
+
+  useEffect(() => {
+    getOrders();
+  }, []);
 
   const total = items => {
     return items.map(item => item.price).reduce((prev, curr) => prev + curr, 0);
@@ -116,6 +120,7 @@ export default function ViewCart({navigation}) {
                     marginRight: 5,
                   }}
                   onPress={() => {
+                    getOrders();
                     selectItem(item, 1, '+');
                   }}
                 />
@@ -123,6 +128,7 @@ export default function ViewCart({navigation}) {
                   title="-"
                   style={{backgroundColor: '#000', marginTop: 30}}
                   onPress={() => {
+                    getOrders();
                     selectItem(item, 1, '-');
                   }}
                 />

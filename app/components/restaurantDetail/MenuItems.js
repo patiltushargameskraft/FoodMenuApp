@@ -65,7 +65,7 @@ export default function MenuItems({
           setDishCount([...dishCount, res.data.data[0].count]);
         });
     });
-  }, [dishCount, foods]);
+  }, []);
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
