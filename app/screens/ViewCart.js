@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
-import {View, Text, TouchableOpacity, Modal, StyleSheet} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {Button} from 'react-native-elements/dist/buttons/Button';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useSelector} from 'react-redux';
@@ -64,7 +64,7 @@ export default function ViewCart({navigation}) {
           <Button
             style={{backgroundColor: '#000'}}
             title="view menu"
-            onPress={() => navigation.navigate('RestaurantDetail')}
+            onPress={() => navigation.navigate('Home')}
           />
           {data.map((item, index) => (
             <OrderItem key={index} item={item} />

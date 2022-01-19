@@ -12,15 +12,15 @@ import BottomTabs from '../components/home/BottomTabs';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function RestaurantDetail({route, navigation}) {
+  const [foods, setfoods] = useState([]);
 
-  const [foods, setfoods] = useState([])
-  
   useEffect(() => {
-    axios.get(`http://localhost:3000/restaurant/getDishes/${route.params.resId}`).then(res => {
-      setfoods(res.data.data);
-    });
-  }, []);
-
+    axios
+      .get(`http://localhost:3000/restaurant/getDishes/${route.params.resId}`)
+      .then(res => {
+        setfoods(res.data.data);
+      });
+  }, [route.params.resId]);
 
   return (
 // <<<<<<< HEAD
@@ -32,18 +32,5 @@ export default function RestaurantDetail({route, navigation}) {
       <BottomTabs navigation={navigation}/>
     </SafeAreaView>
     </>
-// =======
-    // <View>
-    //   <About route={route} />
-    //   <Divider width={1.8} style={{marginVertical: 20}} />
-    //   <Button
-    //     title="Cart"
-    //     style={{backgroundColor: '#000'}}
-    //     onPress={() => navigation.navigate('ViewCart')}
-    //   />
-    //   <Divider width={1.8} style={{marginVertical: 20}} />
-    //      <MenuItems restaurantId={route.params.resId} restaurantName={route.params.name} foods={foods} />
-    //   <ViewCart navigation={navigation} />
-    // </View>
   );
 }
