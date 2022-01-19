@@ -5,8 +5,9 @@ import {View, Text} from 'react-native';
 import {Divider} from 'react-native-elements';
 import About from '../components/restaurantDetail/About';
 import MenuItems from '../components/restaurantDetail/MenuItems';
+import axios from 'axios';
+import {Button} from 'react-native-elements/dist/buttons/Button';
 import ViewCart from '../components/restaurantDetail/ViewCart';
-import axios from 'axios'
 import BottomTabs from '../components/home/BottomTabs';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -22,6 +23,7 @@ export default function RestaurantDetail({route, navigation}) {
 
 
   return (
+// <<<<<<< HEAD
     <>
     <About route={route} />
     <SafeAreaView style={{flex: 1}}>
@@ -30,5 +32,18 @@ export default function RestaurantDetail({route, navigation}) {
       <BottomTabs navigation={navigation}/>
     </SafeAreaView>
     </>
+// =======
+    // <View>
+    //   <About route={route} />
+    //   <Divider width={1.8} style={{marginVertical: 20}} />
+    //   <Button
+    //     title="Cart"
+    //     style={{backgroundColor: '#000'}}
+    //     onPress={() => navigation.navigate('ViewCart')}
+    //   />
+    //   <Divider width={1.8} style={{marginVertical: 20}} />
+    //      <MenuItems restaurantId={route.params.resId} restaurantName={route.params.name} foods={foods} />
+    //   <ViewCart navigation={navigation} />
+    // </View>
   );
 }

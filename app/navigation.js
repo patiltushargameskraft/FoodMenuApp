@@ -7,6 +7,7 @@ import Search from './screens/Search'
 import {Provider as ReduxProvider} from 'react-redux';
 import configureStore from './redux/store';
 import OrderCompleted from './screens/OrderCompleted';
+import ViewCart from './screens/ViewCart';
 
 const store = configureStore();
 
@@ -20,10 +21,13 @@ export default function RootNavigation() {
   return (
     <ReduxProvider store={store}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Search" screenOptions={screenOptions}>
+        <Stack.Navigator
+          initialRouteName="Search"
+          screenOptions={screenOptions}>
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="RestaurantDetail" component={RestaurantDetail} />
           <Stack.Screen name="OrderCompleted" component={OrderCompleted} />
+          <Stack.Screen name="ViewCart" component={ViewCart} />
           <Stack.Screen name="Search" component={Search} />
         </Stack.Navigator>
       </NavigationContainer>
