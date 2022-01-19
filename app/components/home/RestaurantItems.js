@@ -1,11 +1,8 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
-<<<<<<< HEAD
-=======
 // import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
->>>>>>> c0d4e9db2a9b29fbc2cfff6d070577c7781bf186
 
 export default function RestaurantItems({navigation, ...props}) {
   return (

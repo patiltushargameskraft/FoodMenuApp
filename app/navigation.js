@@ -22,7 +22,7 @@ export default function RootNavigation() {
     <ReduxProvider store={store}>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="Search"
+          initialRouteName="Home"
           screenOptions={screenOptions}>
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="RestaurantDetail" component={RestaurantDetail} />
