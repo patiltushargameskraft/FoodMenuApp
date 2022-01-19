@@ -7,7 +7,7 @@ export default function About(props) {
   return (
     <View>
       <RestaurantImage image={image} />
-      <RestaurantName name={name} />
+      <RestaurantName name={name} /> 
       <RestaurantDescription description={description} />
     </View>
   );
