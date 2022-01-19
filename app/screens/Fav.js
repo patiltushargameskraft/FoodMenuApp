@@ -32,7 +32,7 @@ export default function Home({navigation}) {
       
       <Divider width={1} />
       
-      <BottomTabs />
+            <BottomTabs navigation={navigation}/>
       
       
     </SafeAreaView>
