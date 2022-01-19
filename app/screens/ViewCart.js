@@ -7,6 +7,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {useSelector, useDispatch} from 'react-redux';
 import OrderItem from '../components/restaurantDetail/OrderItem';
 import Counter from 'react-native-counters';
+import BottomTabs from '../components/home/BottomTabs';
 
 export default function ViewCart({navigation}) {
   const [data, setData] = useState([]);
@@ -89,11 +90,6 @@ export default function ViewCart({navigation}) {
       <View style={styles.modalContainer}>
         <ScrollView style={styles.modalCheckoutContainer}>
           <Text style={styles.restaurantName}>{restaurantId}</Text>
-          <Button
-            style={{backgroundColor: '#000'}}
-            title="view menu"
-            onPress={() => navigation.navigate('Home')}
-          />
           {data.map((item, index) => (
             <View
               key={index}
@@ -145,6 +141,7 @@ export default function ViewCart({navigation}) {
           </View>
         </ScrollView>
       </View>
+      <BottomTabs navigation={navigation} />
     </>
   );
 }

@@ -19,15 +19,18 @@ export default function Home({navigation}) {
   return (
     <SafeAreaView style={{backgroundColor: '#eee', flex: 1}}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Text style={{
-          marginLeft:10,
-          fontSize: 30,
-          fontWeight: 'bold',
-        }}>Welcome</Text>
+        <Text
+          style={{
+            marginLeft: 10,
+            fontSize: 30,
+            fontWeight: 'bold',
+          }}>
+          Welcome
+        </Text>
         <RestaurantItems restaurantData={promotedRes} navigation={navigation} />
       </ScrollView>
       <Divider width={1} />
-      <BottomTabs navigation={navigation}/>
+      <BottomTabs navigation={navigation} />
     </SafeAreaView>
   );
 }

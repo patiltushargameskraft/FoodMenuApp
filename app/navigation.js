@@ -10,8 +10,6 @@ import OrderCompleted from './screens/OrderCompleted';
 import ViewCart from './screens/ViewCart';
 import Fav from './screens/Fav';
 
-
-
 const store = configureStore();
 
 export default function RootNavigation() {
