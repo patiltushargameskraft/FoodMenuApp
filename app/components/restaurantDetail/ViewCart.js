@@ -1,35 +1,34 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+import axios from 'axios';
+import React, {useEffect, useState} from 'react';
 import {View, Text, TouchableOpacity, Modal, StyleSheet} from 'react-native';
+import {Button} from 'react-native-elements/dist/buttons/Button';
 import {useSelector} from 'react-redux';
 import OrderItem from './OrderItem';
-import LottieView from 'lottie-react-native';
 
 export default function ViewCart({navigation}) {
   const [modalVisible, setModalVisible] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState([]);
 
-  const {items, restaurantName} = useSelector(
+  const {items, restaurantId} = useSelector(
     state => state.cartReducer.selectedItems,
   );
+
+  useEffect(() => {
+    axios.get('http://localhost:3000/cart/1').then(res => {
+      setData(res.data.data);
+      console.log(res.data.data);
+    });
+  }, []);
 
   const total = items
     .map(item => item.qty * item.price)
     .reduce((prev, curr) => prev + curr, 0);
 
-  const totalUSD = total.toLocaleString('en', {
+  const totalINR = total.toLocaleString('en', {
     style: 'currency',
-    currency: 'USD',
+    currency: 'INR',
   });
-
-  const addOrderToFireBase = () => {
-    setLoading(true);
-
-    setTimeout(() => {
-      setLoading(false);
-      navigation.navigate('OrderCompleted');
-    }, 2500);
-  };
 
   const styles = StyleSheet.create({
     modalContainer: {
@@ -71,13 +70,18 @@ export default function ViewCart({navigation}) {
       <>
         <View style={styles.modalContainer}>
           <View style={styles.modalCheckoutContainer}>
-            <Text style={styles.restaurantName}>{restaurantName}</Text>
+            <Text style={styles.restaurantName}>{restaurantId}</Text>
+            <Button
+              style={{backgroundColor: '#000'}}
+              title="view menu"
+              onPress={() => setModalVisible(false)}
+            />
             {items.map((item, index) => (
               <OrderItem key={index} item={item} />
             ))}
             <View style={styles.subtotalContainer}>
               <Text style={styles.subtotalText}>Subtotal</Text>
-              <Text>{totalUSD}</Text>
+              <Text>{totalINR}</Text>
             </View>
             <View style={{flexDirection: 'row', justifyContent: 'center'}}>
               <TouchableOpacity
@@ -91,7 +95,7 @@ export default function ViewCart({navigation}) {
                   position: 'relative',
                 }}
                 onPress={() => {
-                  addOrderToFireBase();
+                  navigation.navigate('OrderCompleted');
                   setModalVisible(false);
                 }}>
                 <Text style={{color: 'white', fontSize: 20}}>Checkout</Text>
@@ -103,7 +107,7 @@ export default function ViewCart({navigation}) {
                     fontSize: 15,
                     top: 17,
                   }}>
-                  {total ? totalUSD : ''}
+                  {total ? totalINR : ''}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -154,30 +158,9 @@ export default function ViewCart({navigation}) {
               <Text style={{color: 'white', fontSize: 20, marginRight: 30}}>
                 View Cart
               </Text>
-              <Text style={{color: 'white', fontSize: 20}}>{totalUSD}</Text>
+              <Text style={{color: 'white', fontSize: 20}}>{totalINR}</Text>
             </TouchableOpacity>
           </View>
-        </View>
-      ) : (
-        <></>
-      )}
-      {loading ? (
-        <View
-          style={{
-            backgroundColor: 'black',
-            position: 'absolute',
-            opacity: 0.6,
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '100%',
-            width: '100%',
-          }}>
-          <LottieView
-            style={{height: 200}}
-            source={require('../../assets/animations/scanner.json')}
-            autoPlay
-            speed={3}
-          />
         </View>
       ) : (
         <></>

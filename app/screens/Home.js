@@ -15,8 +15,6 @@ export default function Home({navigation}) {
       setPromotedRes(res.data.data);
     });
   }, []);
-  
-  console.log(promotedRes);
 
   return (
     <SafeAreaView style={{backgroundColor: '#eee', flex: 1}}>

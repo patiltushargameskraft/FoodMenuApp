@@ -6,6 +6,7 @@ import {Divider} from 'react-native-elements';
 import {useDispatch} from 'react-redux';
 import {useSelector} from 'react-redux';
 import Counter from 'react-native-counters';
+import axios from 'axios';
 
 const styles = StyleSheet.create({
   menuItemStyle: {
@@ -29,20 +30,27 @@ export default function MenuItems({
 }) {
   const dispatch = useDispatch();
 
-  const selectItem = (item, number, type) =>
+  const selectItem = (item, number, type) => {
     dispatch({
       type: 'ADD_TO_CART',
       payload: {
-        ...{id: item.id, qty: number, addons: [], price: 10},
-        restaurantName: restaurantName,
+        ...{id: item.id, qty: number, addons: [], price: item.price},
+        restaurantId: restaurantId,
       },
     });
+  };
 
   const cartItems = useSelector(state => state.cartReducer.selectedItems.items);
 
-  const isFoodInCart = (food, cartItems) =>
-    Boolean(cartItems.find(item => item.id === food.id));
-  
+  const isFoodInCart = (food, cartItems) => {
+    const idx = cartItems.findIndex(item => item.id === food.id);
+    if (idx === -1) {
+      return 0;
+    } else {
+      return cartItems[idx].qty;
+    }
+  };
+
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       {foods.map((food, index) => (
@@ -53,6 +61,7 @@ export default function MenuItems({
             ) : (
               <Counter
                 onChange={(number, type) => selectItem(food, number, type)}
+                start={isFoodInCart(food, cartItems)}
               />
             )}
             <FoodInfo food={food} />
@@ -70,8 +79,8 @@ export default function MenuItems({
 }
 
 const FoodInfo = props => (
-  <View style={{width: 240, justifyContent: 'space-evenly', marginLeft: 10}}>
-    <Text style={styles.titleStyle}>{props.food.name}</Text>
+  <View style={{width: 150, justifyContent: 'space-evenly', marginLeft: 10}}>
+    <Text style={styles.titleStyle}>{props.food.title}</Text>
     <Text>{props.food.description}</Text>
     <Text>{props.food.price}</Text>
   </View>
