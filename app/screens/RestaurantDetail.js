@@ -16,13 +16,15 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/FontAwesome';
 export default function RestaurantDetail({route, navigation}) {
   const [foods, setfoods] = useState([]);
-
+  const [fav, setFav] = useState([]);
+  const [present, setPresent] = useState(false);
   useEffect(() => {
     axios
       .get(`http://localhost:3000/restaurant/getDishes/${route.params.resId}`)
       .then(res => {
         setfoods(res.data.data);
       });
+      
   }, [route.params.resId]);
 
   Delete =(x) => 
@@ -32,6 +34,8 @@ export default function RestaurantDetail({route, navigation}) {
   }
   Add =(x) => 
   {
+  
+    
     axios.post(`http://localhost:3000/restaurant/addResToFav/1/${x}`)
     .then(Alert.alert('Added'))
   }
@@ -39,9 +43,8 @@ export default function RestaurantDetail({route, navigation}) {
   return (
     
     <SafeAreaView style={{flex: 1}}>
-      <View style={styles.fixToText}>
+     <View style={styles.fixToText}>
         <Button
-        
           title=" Remove Fav   "
           style={{backgroundColor: '#000'}}
           onPress={() => 
@@ -49,13 +52,14 @@ export default function RestaurantDetail({route, navigation}) {
         }
         />
         <Button
-          title="Add Fav  "
+          title="   Add Fav           "
           style={{backgroundColor: '#000'}}
           onPress={() =>
             this.Add(route.params.resId)
         }
         />
       </View>
+      
        <View> 
       <About route={route} />
       
@@ -72,9 +76,6 @@ export default function RestaurantDetail({route, navigation}) {
       />
    
     </View>
-    <About route={route} />
-    
-      <MenuItems restaurantId={route.params.resId} restaurantName={route.params.name} foods={foods} />
       <Divider width={1} />
       <BottomTabs navigation={navigation} />
     </SafeAreaView>
