@@ -6,17 +6,23 @@ import {Button} from 'react-native-elements/dist/buttons/Button';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useSelector, useDispatch} from 'react-redux';
 import OrderItem from '../components/restaurantDetail/OrderItem';
-import Counter from 'react-native-counters';
 import BottomTabs from '../components/home/BottomTabs';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 export default function ViewCart({navigation}) {
   const [data, setData] = useState([]);
   const {restaurantId} = useSelector(state => state.cartReducer.selectedItems);
 
   useEffect(() => {
-    axios.get('http://localhost:3000/cart/1').then(res => {
-      setData(res.data.data);
-    });
+    axios
+      .get('http://localhost:3000/cart/1')
+      .then(res => {
+        setData(res.data.data);
+      })
+      .catch(err => {
+        console.log(err);
+        throw err;
+      });
   }, [data]);
 
   const total = items => {
@@ -86,7 +92,7 @@ export default function ViewCart({navigation}) {
   };
 
   return (
-    <>
+    <SafeAreaView style={{flex: 1}}>
       <View style={styles.modalContainer}>
         <ScrollView style={styles.modalCheckoutContainer}>
           <Text style={styles.restaurantName}>{restaurantId}</Text>
@@ -100,10 +106,27 @@ export default function ViewCart({navigation}) {
                 borderBottomWidth: 1,
                 borderBottomColor: '#999',
               }}>
-              <Counter
-                onChange={(number, type) => selectItem(item, number, type)}
-                start={item.quantity}
-              />
+              <View
+                style={{flexDirection: 'row', justifyContent: 'space-around'}}>
+                <Button
+                  title="+"
+                  style={{
+                    backgroundColor: '#000',
+                    marginTop: 30,
+                    marginRight: 5,
+                  }}
+                  onPress={() => {
+                    selectItem(item, 1, '+');
+                  }}
+                />
+                <Button
+                  title="-"
+                  style={{backgroundColor: '#000', marginTop: 30}}
+                  onPress={() => {
+                    selectItem(item, 1, '-');
+                  }}
+                />
+              </View>
               <OrderItem item={item} />
             </View>
           ))}
@@ -142,6 +165,6 @@ export default function ViewCart({navigation}) {
         </ScrollView>
       </View>
       <BottomTabs navigation={navigation} />
-    </>
+    </SafeAreaView>
   );
 }

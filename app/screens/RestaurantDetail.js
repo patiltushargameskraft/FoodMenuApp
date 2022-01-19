@@ -26,12 +26,7 @@ export default function RestaurantDetail({route, navigation}) {
     <View>
       <About route={route} />
       <Divider width={1.8} style={{marginVertical: 20}} />
-      <Button
-        title="Cart"
-        style={{backgroundColor: '#000'}}
-        onPress={() => navigation.navigate('ViewCart')}
-      />
-      <Divider width={1.8} style={{marginVertical: 20}} />
+
       <MenuItems
         restaurantId={route.params.resId}
         foods={foods}

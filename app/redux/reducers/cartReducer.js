@@ -15,7 +15,7 @@ const addItemToCart = (quantity, userId, dishId) => {
       console.log(err);
       throw err;
     })
-    .then(() => console.log('added'));
+    .then(() => console.log('Added to cart'));
 };
 
 const removeItemFromCart = orderId => {
@@ -28,6 +28,16 @@ const removeItemFromCart = orderId => {
     .then(() => console.log('Removed from cart'));
 };
 
+const removeAllItemFromCart = () => {
+  axios
+    .delete('http://localhost:3000/cart/checkOutCartItems/1')
+    .catch(err => {
+      console.log(err);
+      throw err;
+    })
+    .then(() => console.log('Removed All from cart'));
+};
+
 let cartReducer = (state = defaultState, action) => {
   switch (action.type) {
     case 'ADD_TO_CART': {
@@ -37,26 +47,18 @@ let cartReducer = (state = defaultState, action) => {
 
       if (newState.selectedItems.restaurantId !== action.payload.restaurantId) {
         newState.selectedItems.items = [];
+        removeAllItemFromCart();
       }
 
       if (action.payload.counterType === '+') {
         addItemToCart(1, 1, action.payload.id);
+        newState.selectedItems.items.push(action.payload);
       } else if (action.payload.orderId) {
         removeItemFromCart(action.payload.orderId);
       }
 
-      const idx = state.selectedItems.items.findIndex(
-        item => item.id === action.payload.id,
-      );
-
-      if (idx !== -1) {
-        newState.selectedItems.items[idx].qty = action.payload.qty;
-      } else {
-        newState.selectedItems.items.push(action.payload);
-      }
-
       newState.selectedItems = {
-        items: newState.selectedItems.items.filter(item => item.qty !== 0),
+        items: newState.selectedItems.items,
         restaurantId: action.payload.restaurantId,
       };
 
