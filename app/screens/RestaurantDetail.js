@@ -2,11 +2,11 @@
 /* eslint-disable no-unused-vars */
 import React, {useEffect, useState} from 'react';
 
-import {View, Text,Alert,StyleSheet} from 'react-native';
+import {View, Text, Alert, StyleSheet} from 'react-native';
 import {Divider} from 'react-native-elements';
 import About from '../components/restaurantDetail/About';
 import MenuItems from '../components/restaurantDetail/MenuItems';
-import { TouchableOpacity} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import axios from 'axios';
 import {Button} from 'react-native-elements/dist/buttons/Button';
 import ViewCart from '../components/restaurantDetail/ViewCart';
@@ -24,63 +24,46 @@ export default function RestaurantDetail({route, navigation}) {
       .then(res => {
         setfoods(res.data.data);
       });
-      
   }, [route.params.resId]);
 
-  Delete =(x) => 
-  {
-    axios.delete(`http://localhost:3000/restaurant/removeResFromFav/1/${x}`)
-    .then(Alert.alert('Removed'))
-  }
-  Add =(x) => 
-  {
-  
-    
-    axios.post(`http://localhost:3000/restaurant/addResToFav/1/${x}`)
-    .then(Alert.alert('Added'))
-  }
+  Delete = x => {
+    axios
+      .delete(`http://localhost:3000/restaurant/removeResFromFav/1/${x}`)
+      .then(Alert.alert('Removed'));
+  };
+  Add = x => {
+    axios;
+
+    axios
+      .post(`http://localhost:3000/restaurant/addResToFav/1/${x}`)
+      .then(Alert.alert('Added'));
+  };
 
   return (
-    
     <SafeAreaView style={{flex: 1}}>
-     <View style={styles.fixToText}>
+      <View style={styles.fixToText}>
         <Button
           title=" Remove Fav   "
           style={{backgroundColor: '#000'}}
-          onPress={() => 
-           this.Delete(route.params.resId)
-        }
+          onPress={() => this.Delete(route.params.resId)}
         />
         <Button
           title="   Add Fav           "
           style={{backgroundColor: '#000'}}
-          onPress={() =>
-            this.Add(route.params.resId)
-        }
+          onPress={() => this.Add(route.params.resId)}
         />
       </View>
-      
-       <View> 
-      <About route={route} />
-<<<<<<< HEAD
-      <Divider width={1.8} style={{marginVertical: 20}} />
 
-=======
-      
-      <Button
-        title="Cart"
-        style={{backgroundColor: '#000'}}
-        onPress={() => navigation.navigate('ViewCart')}
-      />
-      <Divider width={1.8} style={{marginVertical: 20}} />
->>>>>>> 758465f3fe9326c995eb833470dc5500314a669f
-      <MenuItems
-        restaurantId={route.params.resId}
-        foods={foods}
-        navigation={navigation}
-      />
-   
-    </View>
+      <View>
+        <About route={route} />
+        <Divider width={1.8} style={{marginVertical: 20}} />
+
+        <MenuItems
+          restaurantId={route.params.resId}
+          foods={foods}
+          navigation={navigation}
+        />
+      </View>
       <Divider width={1} />
       <BottomTabs navigation={navigation} />
     </SafeAreaView>
