@@ -14,7 +14,7 @@ export default function BottomTabs({navigation}) {
       }}>
       <MyIcon name="home" size ={40} onPressGo={() => navigation.navigate('Home')}/>
       <MyIcon name="search" size = {35} onPressGo={() => navigation.navigate('Search')}/>
-      <MyIcon name="heart" size ={35} onPressGo={() => {}}/>
+      <MyIcon name="heart" size ={35} onPressGo={() => navigation.navigate('Fav')}/>
       <MyIcon name="shopping-cart" size={40} onPressGo={() => {}}/>
     </View>
   );

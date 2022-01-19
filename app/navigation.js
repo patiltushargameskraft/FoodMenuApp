@@ -8,6 +8,9 @@ import {Provider as ReduxProvider} from 'react-redux';
 import configureStore from './redux/store';
 import OrderCompleted from './screens/OrderCompleted';
 import ViewCart from './screens/ViewCart';
+import Fav from './screens/Fav';
+
+
 
 const store = configureStore();
 
@@ -27,6 +30,7 @@ export default function RootNavigation() {
           <Stack.Screen name="OrderCompleted" component={OrderCompleted} />
           <Stack.Screen name="ViewCart" component={ViewCart} />
           <Stack.Screen name="Search" component={Search} />
+          <Stack.Screen name="Fav" component={Fav} />
         </Stack.Navigator>
       </NavigationContainer>
     </ReduxProvider>
