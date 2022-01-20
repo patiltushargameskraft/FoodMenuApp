@@ -6,17 +6,16 @@ import {View, Text, Alert, StyleSheet} from 'react-native';
 import {Divider} from 'react-native-elements';
 import About from '../components/restaurantDetail/About';
 import MenuItems from '../components/restaurantDetail/MenuItems';
-import {TouchableOpacity} from 'react-native';
 import axios from 'axios';
-import {Button} from 'react-native-elements/dist/buttons/Button';
-import ViewCart from '../components/restaurantDetail/ViewCart';
 import BottomTabs from '../components/home/BottomTabs';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import CheckBox from 'react-native-check-box';
+import {MyIcon} from '../components/home/BottomTabs';
 
-import Icon from 'react-native-vector-icons/FontAwesome';
 export default function RestaurantDetail({route, navigation}) {
   const [foods, setfoods] = useState([]);
   const [fav, setFav] = useState([]);
+  const [isChecked, setChecked] = useState(false);
   const [present, setPresent] = useState(false);
   useEffect(() => {
     axios
@@ -26,14 +25,12 @@ export default function RestaurantDetail({route, navigation}) {
       });
   }, [route.params.resId]);
 
-  Delete = x => {
+  const Delete = x => {
     axios
       .delete(`http://localhost:3000/restaurant/removeResFromFav/1/${x}`)
       .then(Alert.alert('Removed'));
   };
-  Add = x => {
-    axios;
-
+  const Add = x => {
     axios
       .post(`http://localhost:3000/restaurant/addResToFav/1/${x}`)
       .then(Alert.alert('Added'));
@@ -41,32 +38,45 @@ export default function RestaurantDetail({route, navigation}) {
 
   return (
     <>
-    <SafeAreaView style={{marginTop: 0,flex: 1}}>
-    <View style={styles.fixToText}>
-        <Button
-          title=" Remove Fav   "
-          style={{backgroundColor: '#000'}}
-          onPress={() => this.Delete(route.params.resId)}
+      <SafeAreaView style={{marginTop: 0, flex: 1}}>
+        <View style={styles.fixToText}>
+          <CheckBox
+            style={{flex: 1, padding: 10}}
+            onClick={() => {
+              if (!isChecked) {
+                Add(route.params.resId);
+              } else {
+                Delete(route.params.resId);
+              }
+              setChecked(!isChecked);
+            }}
+            isChecked={isChecked}
+            rightText={'Favourite'}
+          />
+          <MyIcon
+            name="search"
+            size={35}
+            onPressGo={() => {
+              navigation.navigate('Search', {
+                resId: route.params.resId,
+                resName: route.params.name,
+              });
+            }}
+          />
+        </View>
+        <Divider width={1} />
+        <About route={route} />
+        <Divider width={1.8} style={{marginVertical: 20}} />
+        <MenuItems
+          restaurantId={route.params.resId}
+          restaurantName={route.params.name}
+          foods={foods}
+          navigation={navigation}
         />
-        <Button
-          title="   Add Fav           "
-          style={{backgroundColor: '#000'}}
-          onPress={() => this.Add(route.params.resId)}
-        />
-      </View>
-  
-      <About route={route} />
-      <Divider width={1.8} style={{marginVertical: 20}} />
-      <MenuItems
-        restaurantId={route.params.resId}
-        restaurantName={route.params.name}
-        foods={foods}
-        navigation={navigation}
-      />
-      <Divider width={1} />
-      <BottomTabs navigation={navigation} />
-    </SafeAreaView>
-  </>
+        <Divider width={1} />
+        <BottomTabs navigation={navigation} />
+      </SafeAreaView>
+    </>
   );
 }
 const styles = StyleSheet.create({
@@ -82,6 +92,7 @@ const styles = StyleSheet.create({
   fixToText: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginRight: 10,
   },
   separator: {
     marginVertical: 8,

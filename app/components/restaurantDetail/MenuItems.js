@@ -58,7 +58,6 @@ export default function MenuItems({
   const [dishCount, setDishCount] = useState([]);
 
   useEffect(() => {
-    console.log('Mounted');
     const getData = async () => {
       const response = await Promise.all(
         foods.map(food => {
@@ -71,10 +70,6 @@ export default function MenuItems({
       console.log(response);
     };
     getData();
-
-    return () => {
-      console.log('Unmounted');
-    };
   }, [foods]);
 
   return (
@@ -84,7 +79,7 @@ export default function MenuItems({
           <View style={styles.menuItemStyle}>
             <Counter
               onChange={(number, type) => selectItem(food, number, type)}
-              count={dishCount[index]}
+              start={dishCount[index]}
             />
             <FoodInfo food={food} />
             <FoodImage food={food} marginLeft={marginLeft ? marginLeft : 0} />
