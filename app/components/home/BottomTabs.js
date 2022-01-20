@@ -36,7 +36,7 @@ export default function BottomTabs({navigation}) {
   );
 }
 
-const MyIcon = ({name, size, onPressGo}) => (
+export const MyIcon = ({name, size, onPressGo}) => (
   <TouchableOpacity activeOpacity={0.5} onPress={onPressGo}>
     <Icon
       name={name}
