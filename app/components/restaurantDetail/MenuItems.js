@@ -1,6 +1,6 @@
 /* eslint-disable no-shadow */
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, Image, ScrollView} from 'react-native';
 import {Divider} from 'react-native-elements';
 import {useDispatch} from 'react-redux';
@@ -24,17 +24,21 @@ const styles = StyleSheet.create({
 export default function MenuItems({
   restaurantId,
   foods,
-  hideCheckbox,
   marginLeft,
+  navigation,
 }) {
   const dispatch = useDispatch();
 
-  const selectItem = (item, number, type) => {
+  const selectItem = (item, number, counterType) => {
+    if (counterType === '-') {
+      navigation.navigate('ViewCart');
+    }
     dispatch({
       type: 'ADD_TO_CART',
       payload: {
         ...{id: item.id, qty: number, addons: [], price: item.price},
         restaurantId: restaurantId,
+        counterType: counterType,
       },
     });
   };
@@ -50,19 +54,28 @@ export default function MenuItems({
     }
   };
 
+  const [dishCount, setDishCount] = useState([]);
+
+  useEffect(() => {
+    foods.map(food => {
+      axios
+        .get(`http://localhost:3000/dish/getInstancesInCart/1/${food.id}`)
+        .then(res => {
+          console.log(res.data.data[0].count);
+          setDishCount([...dishCount, res.data.data[0].count]);
+        });
+    });
+  }, []);
+
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       {foods.map((food, index) => (
         <View key={index}>
           <View style={styles.menuItemStyle}>
-            {hideCheckbox ? (
-              <></>
-            ) : (
-              <Counter
-                onChange={(number, type) => selectItem(food, number, type)}
-                start={isFoodInCart(food, cartItems)}
-              />
-            )}
+            <Counter
+              onChange={(number, type) => selectItem(food, number, type)}
+              start={dishCount[index]}
+            />
             <FoodInfo food={food} />
             <FoodImage food={food} marginLeft={marginLeft ? marginLeft : 0} />
           </View>
@@ -79,7 +92,7 @@ export default function MenuItems({
 
 const FoodInfo = props => (
   <View style={{width: 150, justifyContent: 'space-evenly', marginLeft: 10}}>
-    <Text style={styles.titleStyle}>{props.food.name}</Text>
+    <Text style={styles.titleStyle}>{props.food.title}</Text>
     <Text>{props.food.description}</Text>
     <Text>{props.food.price}</Text>
   </View>

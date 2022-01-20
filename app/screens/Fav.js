@@ -1,18 +1,17 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, ScrollView} from 'react-native';
-import {Divider, Text} from 'react-native-elements';
+import {SafeAreaView, ScrollView, Text} from 'react-native';
+import {Divider} from 'react-native-elements';
 import BottomTabs from '../components/home/BottomTabs';
-import Categories from '../components/home/Categories';
 import RestaurantItems from '../components/home/RestaurantItems';
 import axios from 'axios';
 
 export default function Home({navigation}) {
-  const [promotedRes, setPromotedRes] = useState([]);
+  const [fav, setFav] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:3000/').then(res => {
-      setPromotedRes(res.data.data);
+    axios.get('http://localhost:3000/getFavRes/1').then(res => {
+      setFav(res.data.data);
     });
   }, []);
 
@@ -25,9 +24,9 @@ export default function Home({navigation}) {
             fontSize: 30,
             fontWeight: 'bold',
           }}>
-          Welcome
+          Fav
         </Text>
-        <RestaurantItems restaurantData={promotedRes} navigation={navigation} />
+        <RestaurantItems restaurantData={fav} navigation={navigation} />
       </ScrollView>
       <Divider width={1} />
       <BottomTabs navigation={navigation} />

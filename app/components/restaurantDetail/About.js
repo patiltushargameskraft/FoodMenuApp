@@ -10,7 +10,7 @@ export default function About(props) {
   return (
     <View>
       <RestaurantImage image={image} />
-      <RestaurantName name={name} />
+      <RestaurantName name={name} /> 
       <RestaurantDescription description={description} />
       <View style={{marginTop: 10, marginBottom: 10}}>
       <MyIcon name="search" size = {35} onPressGo={() => {navigation.navigate('Search', {

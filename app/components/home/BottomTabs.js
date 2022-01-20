@@ -12,16 +12,37 @@ export default function BottomTabs({navigation}) {
         marginHorizontal: 30,
         justifyContent: 'space-between',
       }}>
-      <MyIcon name="home" size ={40} onPressGo={() => navigation.navigate('Home')}/>
-      <MyIcon name="search" size = {35} onPressGo={() => navigation.navigate('Search')}/>
-      <MyIcon name="heart" size ={35} onPressGo={() => {}}/>
-      <MyIcon name="shopping-cart" size={40} onPressGo={() => {}}/>
+      <MyIcon
+        name="home"
+        size={40}
+        onPressGo={() => navigation.navigate('Home')}
+      />
+      <MyIcon
+        name="search"
+        size={35}
+        onPressGo={() => navigation.navigate('Search')}
+      />
+      <MyIcon
+        name="heart"
+        size={35}
+        onPressGo={() => navigation.navigate('Fav')}
+      />
+      <MyIcon
+        name="shopping-cart"
+        size={40}
+        onPressGo={() => navigation.navigate('ViewCart')}
+      />
     </View>
   );
 }
 
-export const MyIcon = ({name, size, onPressGo}) => (
-  <TouchableOpacity activeOpacity = { .5 } onPress={onPressGo} >
-        <Icon name={name} size={size} color="orange" style={{alignSelf: 'center'}}/>
+const MyIcon = ({name, size, onPressGo}) => (
+  <TouchableOpacity activeOpacity={0.5} onPress={onPressGo}>
+    <Icon
+      name={name}
+      size={size}
+      color="orange"
+      style={{alignSelf: 'center'}}
+    />
   </TouchableOpacity>
 );
