@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   catStyle: {
     fontSize: 21,
     fontWeight: '700',
-    textAlign:'center',
+    textAlign: 'center',
   },
   titleStyle: {
     fontSize: 19,
