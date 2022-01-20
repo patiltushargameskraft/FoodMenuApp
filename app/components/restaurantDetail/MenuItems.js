@@ -58,17 +58,6 @@ export default function MenuItems({
   const [dishCount, setDishCount] = useState([]);
 
   useEffect(() => {
-<<<<<<< HEAD
-    foods.map(food => {
-      axios
-        .get(`http://localhost:3000/dish/getInstancesInCart/1/${food.id}`)
-        .then(res => {
-          console.log(res.data.data[0].count);
-          setDishCount([...dishCount, res.data.data[0].count]);
-        });
-    });
-  }, []);
-=======
     console.log("Mounted");
     const getData = async () => {
       const response = await Promise.all(foods.map( (food) => {
@@ -77,13 +66,8 @@ export default function MenuItems({
       setDishCount(response);
     }
     getData();
->>>>>>> 1ce2fbd3f0abdc109d3de13c2e9049508ee6e8d5
-
-    return () => {
-      console.log("Unmounted");
-    }
   }, [foods]);
-  
+
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       {foods.map((food, index) => (
