@@ -8,7 +8,7 @@ import {useSelector} from 'react-redux';
 import axios from 'axios';
 import {Button} from 'react-native-elements/dist/buttons/Button';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import AddOn from './AddOn';
+import BouncyCheckbox from 'react-native-bouncy-checkbox';
 
 const styles = StyleSheet.create({
   menuItemStyle: {
@@ -34,8 +34,9 @@ export default function MenuItems({
   const [counter, setCounter] = useState(arr);
   const [modalVisible, setModalVisible] = useState(false);
   const [addOn, setAddOn] = useState([]);
+  const [selectedAddOn, setSelectedAddOn] = useState([]);
 
-  console.log('Hi ' + counter);
+  console.log('dishCounts ' + counter);
   const dispatch = useDispatch();
 
   const selectItem = (item, number, counterType) => {
@@ -46,11 +47,13 @@ export default function MenuItems({
     dispatch({
       type: 'ADD_TO_CART',
       payload: {
-        ...{id: item.id, qty: number, addons: [], price: item.price},
+        ...{id: item.id, qty: number, addons: selectedAddOn, price: item.price},
         restaurantId: restaurantId,
         counterType: counterType,
       },
     });
+
+    setSelectedAddOn([]);
   };
 
   useEffect(() => {
@@ -88,7 +91,7 @@ export default function MenuItems({
                   marginTop: 30,
                   marginRight: 5,
                 }}
-                onPress={() => {
+                onPress={async () => {
                   getAddOn(food.id);
                   setModalVisible(true);
                   let newArr = counter;
@@ -103,9 +106,6 @@ export default function MenuItems({
                 title="-"
                 style={{backgroundColor: '#000', marginTop: 30}}
                 onPress={() => {
-                  // let newArr = counter;
-                  // counter[index] = counter[index] - 1;
-                  // setCounter([...newArr]);
                   selectItem(food, 1, '-');
                 }}
               />
@@ -117,17 +117,42 @@ export default function MenuItems({
             <Modal>
               <SafeAreaView>
                 <View>
+                  <Text
+                    style={{
+                      padding: 10,
+                      backgroundColor: '#000',
+                      color: '#fff',
+                    }}>
+                    Please Select Add Ons
+                  </Text>
+                  {addOn.map((item, index) => (
+                    <View key={index}>
+                      <BouncyCheckbox
+                        size={30}
+                        fillColor="green"
+                        unfillColor="#FFFFFF"
+                        text={item.name}
+                        iconStyle={{borderColor: 'green', margin: 10}}
+                        onPress={isChecked => {
+                          if (isChecked) {
+                            setSelectedAddOn([...selectedAddOn, item.id]);
+                          } else {
+                            setSelectedAddOn([
+                              ...selectedAddOn.filter(
+                                addOnItem => addOnItem.id !== item.id,
+                              ),
+                            ]);
+                          }
+                          console.log('Addon Items: ', selectedAddOn);
+                        }}
+                      />
+                    </View>
+                  ))}
                   <Button
-                    style={{backgroundColor: '#000'}}
+                    style={{backgroundColor: '#000', margin: 10}}
                     title="Done"
                     onPress={() => setModalVisible(false)}
                   />
-                  {console.log(addOn.length)}
-                  {addOn.map((item, index) => (
-                    <View key={index}>
-                      <Text>{item.name}</Text>
-                    </View>
-                  ))}
                 </View>
               </SafeAreaView>
             </Modal>

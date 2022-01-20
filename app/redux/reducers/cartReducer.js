@@ -1,15 +1,17 @@
 import axios from 'axios';
+import { addons } from 'react-native';
 
 let defaultState = {
   selectedItems: {items: [], restaurantId: ''},
 };
 
-const addItemToCart = (quantity, userId, dishId) => {
+const addItemToCart = (quantity, userId, dishId, addons) => {
   axios
     .post('http://localhost:3000/dish/addDishToCart/', {
       quantity: quantity,
       userId: userId,
       dishId: dishId,
+      addons: addons,
     })
     .catch(err => {
       console.log(err);
@@ -51,7 +53,7 @@ let cartReducer = (state = defaultState, action) => {
       }
 
       if (action.payload.counterType === '+') {
-        addItemToCart(1, 1, action.payload.id);
+        addItemToCart(1, 1, action.payload.id, action.payload.addons);
         newState.selectedItems.items.push(action.payload);
       } else if (action.payload.orderId) {
         removeItemFromCart(action.payload.orderId);
