@@ -23,7 +23,7 @@ export default function ViewCart({navigation}) {
         console.log(err);
         throw err;
       });
-  }, [data]);
+  }, []);
 
   const total = items => {
     return items.map(item => item.price).reduce((prev, curr) => prev + curr, 0);

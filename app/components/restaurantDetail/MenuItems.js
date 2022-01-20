@@ -32,6 +32,7 @@ export default function MenuItems({
   const selectItem = (item, number, counterType) => {
     if (counterType === '-') {
       navigation.navigate('ViewCart');
+      return;
     }
     dispatch({
       type: 'ADD_TO_CART',
@@ -57,16 +58,20 @@ export default function MenuItems({
   const [dishCount, setDishCount] = useState([]);
 
   useEffect(() => {
-    foods.map(food => {
-      axios
-        .get(`http://localhost:3000/dish/getInstancesInCart/1/${food.id}`)
-        .then(res => {
-          console.log(res.data.data[0].count);
-          setDishCount([...dishCount, res.data.data[0].count]);
-        });
-    });
-  }, [dishCount, foods]);
+    console.log("Mounted");
+    const getData = async () => {
+      const response = await Promise.all(foods.map( (food) => {
+        return axios.get(`http://localhost:3000/dish/getInstancesInCart/1/${food.id}`).then(res => res.data.data[0].count)
+      }));
+      setDishCount(response);
+    }
+    getData();
 
+    return () => {
+      console.log("Unmounted");
+    }
+  }, [foods]);
+  
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       {foods.map((food, index) => (
@@ -74,7 +79,7 @@ export default function MenuItems({
           <View style={styles.menuItemStyle}>
             <Counter
               onChange={(number, type) => selectItem(food, number, type)}
-              start={dishCount[index]}
+              count={dishCount[index]}
             />
             <FoodInfo food={food} />
             <FoodImage food={food} marginLeft={marginLeft ? marginLeft : 0} />
