@@ -16,7 +16,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     margin: 20,
   },
-
+  catStyle: {
+    fontSize: 21,
+    fontWeight: '700',
+    textAlign:'center',
+  },
   titleStyle: {
     fontSize: 19,
     fontWeight: '600',
@@ -81,6 +85,7 @@ export default function MenuItems({
     <ScrollView showsVerticalScrollIndicator={false}>
       {foods.map((food, index) => (
         <View key={index}>
+          <Text style={styles.catStyle}>{food.cat}</Text>
           <View style={styles.menuItemStyle}>
             <View
               style={{flexDirection: 'row', justifyContent: 'space-around'}}>
