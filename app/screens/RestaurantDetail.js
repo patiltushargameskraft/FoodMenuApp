@@ -23,10 +23,9 @@ export default function RestaurantDetail({route, navigation}) {
   }, [route.params.resId]);
 
   return (
-// <<<<<<< HEAD
     <>
-    <About route={route} />
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{marginTop: 0,flex: 1}}>
+      <About route={route} />
       <MenuItems restaurantId={route.params.resId} restaurantName={route.params.name} foods={foods} />
       <Divider width={1} />
       <BottomTabs navigation={navigation}/>

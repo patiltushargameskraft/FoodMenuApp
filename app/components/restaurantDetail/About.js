@@ -1,14 +1,23 @@
 /* eslint-disable react-native/no-inline-styles */
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import {View, Text, Image} from 'react-native';
+import { MyIcon } from '../home/BottomTabs';
 
 export default function About(props) {
-  let {name, image, description} = props.route.params;
+  let {resId, name, image, description} = props.route.params;
+  const navigation = useNavigation();
   return (
     <View>
       <RestaurantImage image={image} />
       <RestaurantName name={name} />
       <RestaurantDescription description={description} />
+      <View style={{marginTop: 10, marginBottom: 10}}>
+      <MyIcon name="search" size = {35} onPressGo={() => {navigation.navigate('Search', {
+        resId: resId,
+        resName: name,
+      })}} />  
+      </View>
     </View>
   );
 }
@@ -26,7 +35,7 @@ const RestaurantName = props => (
       marginHorizontal: 15,
     }}>
     {props.name}
-  </Text>
+  </Text>  
 );
 
 const RestaurantDescription = props => (
