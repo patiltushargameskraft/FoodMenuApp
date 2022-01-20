@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { addons } from 'react-native';
 
 let defaultState = {
   selectedItems: {items: [], restaurantId: ''},

@@ -4,7 +4,6 @@ import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, Image, ScrollView, Modal} from 'react-native';
 import {Divider} from 'react-native-elements';
 import {useDispatch} from 'react-redux';
-import {useSelector} from 'react-redux';
 import axios from 'axios';
 import {Button} from 'react-native-elements/dist/buttons/Button';
 import {SafeAreaView} from 'react-native-safe-area-context';
