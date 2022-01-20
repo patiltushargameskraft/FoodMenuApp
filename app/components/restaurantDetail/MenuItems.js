@@ -1,12 +1,14 @@
 /* eslint-disable no-shadow */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Image, ScrollView} from 'react-native';
+import {View, Text, StyleSheet, Image, ScrollView, Modal} from 'react-native';
 import {Divider} from 'react-native-elements';
 import {useDispatch} from 'react-redux';
 import {useSelector} from 'react-redux';
-import Counter from 'react-native-counters';
 import axios from 'axios';
+import {Button} from 'react-native-elements/dist/buttons/Button';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import AddOn from './AddOn';
 
 const styles = StyleSheet.create({
   menuItemStyle: {
@@ -27,6 +29,13 @@ export default function MenuItems({
   marginLeft,
   navigation,
 }) {
+  const arr = new Array(10).fill(0);
+
+  const [counter, setCounter] = useState(arr);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [addOn, setAddOn] = useState([]);
+
+  console.log('Hi ' + counter);
   const dispatch = useDispatch();
 
   const selectItem = (item, number, counterType) => {
@@ -44,19 +53,6 @@ export default function MenuItems({
     });
   };
 
-  const cartItems = useSelector(state => state.cartReducer.selectedItems.items);
-
-  const isFoodInCart = (food, cartItems) => {
-    const idx = cartItems.findIndex(item => item.id === food.id);
-    if (idx === -1) {
-      return 0;
-    } else {
-      return cartItems[idx].qty;
-    }
-  };
-
-  const [dishCount, setDishCount] = useState([]);
-
   useEffect(() => {
     const getData = async () => {
       const response = await Promise.all(
@@ -66,24 +62,78 @@ export default function MenuItems({
             .then(res => res.data.data[0].count);
         }),
       );
-      setDishCount(response);
       console.log(response);
+      setCounter(response);
     };
     getData();
   }, [foods]);
+
+  const getAddOn = foodId => {
+    axios.get(`http://localhost:3000/dish/getAddons/${foodId}`).then(res => {
+      setAddOn(res.data.data);
+    });
+  };
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       {foods.map((food, index) => (
         <View key={index}>
           <View style={styles.menuItemStyle}>
-            <Counter
-              onChange={(number, type) => selectItem(food, number, type)}
-              start={dishCount[index]}
-            />
+            <View
+              style={{flexDirection: 'row', justifyContent: 'space-around'}}>
+              <Button
+                title="+"
+                style={{
+                  backgroundColor: '#000',
+                  marginTop: 30,
+                  marginRight: 5,
+                }}
+                onPress={() => {
+                  getAddOn(food.id);
+                  setModalVisible(true);
+                  let newArr = counter;
+                  counter[index] = counter[index] + 1;
+                  setCounter([...newArr]);
+                  selectItem(food, 1, '+');
+                  console.log('counter increased: ', counter[index]);
+                }}
+              />
+              <Text>{counter[index]}</Text>
+              <Button
+                title="-"
+                style={{backgroundColor: '#000', marginTop: 30}}
+                onPress={() => {
+                  // let newArr = counter;
+                  // counter[index] = counter[index] - 1;
+                  // setCounter([...newArr]);
+                  selectItem(food, 1, '-');
+                }}
+              />
+            </View>
             <FoodInfo food={food} />
             <FoodImage food={food} marginLeft={marginLeft ? marginLeft : 0} />
           </View>
+          {modalVisible ? (
+            <Modal>
+              <SafeAreaView>
+                <View>
+                  <Button
+                    style={{backgroundColor: '#000'}}
+                    title="Done"
+                    onPress={() => setModalVisible(false)}
+                  />
+                  {console.log(addOn.length)}
+                  {addOn.map((item, index) => (
+                    <View key={index}>
+                      <Text>{item.name}</Text>
+                    </View>
+                  ))}
+                </View>
+              </SafeAreaView>
+            </Modal>
+          ) : (
+            <></>
+          )}
           <Divider
             width={0.5}
             orientation="vertical"
