@@ -7,7 +7,7 @@ import {useDispatch} from 'react-redux';
 import axios from 'axios';
 import {Button} from 'react-native-elements/dist/buttons/Button';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import AddOn from './AddOn';
+import BouncyCheckbox from 'react-native-bouncy-checkbox';
 
 const styles = StyleSheet.create({
   menuItemStyle: {
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   catStyle: {
     fontSize: 21,
     fontWeight: '700',
-    textAlign:'center',
+    textAlign: 'center',
   },
   titleStyle: {
     fontSize: 19,
@@ -37,8 +37,9 @@ export default function MenuItems({
   const [counter, setCounter] = useState(arr);
   const [modalVisible, setModalVisible] = useState(false);
   const [addOn, setAddOn] = useState([]);
+  const [selectedAddOn, setSelectedAddOn] = useState([]);
 
-  console.log('Hi ' + counter);
+  console.log('dishCounts ' + counter);
   const dispatch = useDispatch();
 
   const selectItem = (item, number, counterType) => {
@@ -49,11 +50,13 @@ export default function MenuItems({
     dispatch({
       type: 'ADD_TO_CART',
       payload: {
-        ...{id: item.id, qty: number, addons: [], price: item.price},
+        ...{id: item.id, qty: number, addons: selectedAddOn, price: item.price},
         restaurantId: restaurantId,
         counterType: counterType,
       },
     });
+
+    setSelectedAddOn([]);
   };
 
   useEffect(() => {
@@ -70,57 +73,18 @@ export default function MenuItems({
     };
     getData();
   }, [foods]);
-  
 
   const getAddOn = foodId => {
     axios.get(`http://localhost:3000/dish/getAddons/${foodId}`).then(res => {
       setAddOn(res.data.data);
     });
   };
-  var x=[];
-  
-  var Arr=[];
-     {
-        for(let i = 0; i < foods.length; i++)
-        {
-          // console.log(foods[i].cat);
-          var cur=foods[i].cat;
-          var temp=[]
-          var iss=0;
 
-          for(let j = i; j < foods.length; j++)
-          {
-            if(foods[j].cat==cur)
-            {
-              var flag=1;
-              for(let k = 0; k < x.length; k++){
-                if(j==x[k])
-                {
-                  flag=0;
-                }
-              }
-              if(flag){
-                temp.push(foods[j]);
-                x.push(j);
-                iss=1
-              }
-            } 
-          }
-          if(iss)
-          Arr.push(temp);
-        }
-        // console.log(Arr[0].length);
-      }
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
-      
-  
-         { Arr.map((CAT, ind) => (
-            <View key={ind}>
-      <Text style={styles.catStyle}>{CAT[0].cat}</Text>
-{CAT.map((food, index) => (
+      {foods.map((food, index) => (
         <View key={index}>
-          {/* <Text style={styles.catStyle}>{food.cat}</Text> */}
+          <Text style={styles.catStyle}>{food.cat}</Text>
           <View style={styles.menuItemStyle}>
             <View
               style={{flexDirection: 'row', justifyContent: 'space-around'}}>
@@ -131,7 +95,7 @@ export default function MenuItems({
                   marginTop: 30,
                   marginRight: 5,
                 }}
-                onPress={() => {
+                onPress={async () => {
                   getAddOn(food.id);
                   setModalVisible(true);
                   let newArr = counter;
@@ -146,9 +110,6 @@ export default function MenuItems({
                 title="-"
                 style={{backgroundColor: '#000', marginTop: 30}}
                 onPress={() => {
-                  // let newArr = counter;
-                  // counter[index] = counter[index] - 1;
-                  // setCounter([...newArr]);
                   selectItem(food, 1, '-');
                 }}
               />
@@ -160,17 +121,42 @@ export default function MenuItems({
             <Modal>
               <SafeAreaView>
                 <View>
+                  <Text
+                    style={{
+                      padding: 10,
+                      backgroundColor: '#000',
+                      color: '#fff',
+                    }}>
+                    Please Select Add Ons
+                  </Text>
+                  {addOn.map((item, index) => (
+                    <View key={index}>
+                      <BouncyCheckbox
+                        size={30}
+                        fillColor="green"
+                        unfillColor="#FFFFFF"
+                        text={item.name}
+                        iconStyle={{borderColor: 'green', margin: 10}}
+                        onPress={isChecked => {
+                          if (isChecked) {
+                            setSelectedAddOn([...selectedAddOn, item.id]);
+                          } else {
+                            setSelectedAddOn([
+                              ...selectedAddOn.filter(
+                                addOnItem => addOnItem.id !== item.id,
+                              ),
+                            ]);
+                          }
+                          console.log('Addon Items: ', selectedAddOn);
+                        }}
+                      />
+                    </View>
+                  ))}
                   <Button
-                    style={{backgroundColor: '#000'}}
+                    style={{backgroundColor: '#000', margin: 10}}
                     title="Done"
                     onPress={() => setModalVisible(false)}
                   />
-                  {console.log(addOn.length)}
-                  {addOn.map((item, index) => (
-                    <View key={index}>
-                      <Text>{item.name}</Text>
-                    </View>
-                  ))}
                 </View>
               </SafeAreaView>
             </Modal>
@@ -184,77 +170,6 @@ export default function MenuItems({
           />
         </View>
       ))}
-
-              </View>
-          ))}
-      
-      
-      {/* {foods.map((food, index) => (
-        <View key={index}>
-          <Text style={styles.catStyle}>{food.cat}</Text>
-          <View style={styles.menuItemStyle}>
-            <View
-              style={{flexDirection: 'row', justifyContent: 'space-around'}}>
-              <Button
-                title="+"
-                style={{
-                  backgroundColor: '#000',
-                  marginTop: 30,
-                  marginRight: 5,
-                }}
-                onPress={() => {
-                  getAddOn(food.id);
-                  setModalVisible(true);
-                  let newArr = counter;
-                  counter[index] = counter[index] + 1;
-                  setCounter([...newArr]);
-                  selectItem(food, 1, '+');
-                  console.log('counter increased: ', counter[index]);
-                }}
-              />
-              <Text>{counter[index]}</Text>
-              <Button
-                title="-"
-                style={{backgroundColor: '#000', marginTop: 30}}
-                onPress={() => {
-                  // let newArr = counter;
-                  // counter[index] = counter[index] - 1;
-                  // setCounter([...newArr]);
-                  selectItem(food, 1, '-');
-                }}
-              />
-            </View>
-            <FoodInfo food={food} />
-            <FoodImage food={food} marginLeft={marginLeft ? marginLeft : 0} />
-          </View>
-          {modalVisible ? (
-            <Modal>
-              <SafeAreaView>
-                <View>
-                  <Button
-                    style={{backgroundColor: '#000'}}
-                    title="Done"
-                    onPress={() => setModalVisible(false)}
-                  />
-                  {console.log(addOn.length)}
-                  {addOn.map((item, index) => (
-                    <View key={index}>
-                      <Text>{item.name}</Text>
-                    </View>
-                  ))}
-                </View>
-              </SafeAreaView>
-            </Modal>
-          ) : (
-            <></>
-          )}
-          <Divider
-            width={0.5}
-            orientation="vertical"
-            style={{marginHorizontal: 20}}
-          />
-        </View>
-      ))} */}
     </ScrollView>
   );
 }
@@ -280,4 +195,3 @@ const FoodImage = ({marginLeft, ...props}) => (
     />
   </View>
 );
-
