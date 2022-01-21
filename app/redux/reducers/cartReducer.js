@@ -44,15 +44,16 @@ let cartReducer = (state = defaultState, action) => {
     case 'ADD_TO_CART': {
       let newState = {...state};
 
-      console.log(action.payload.counterType);
+      console.log('add_to_cart action payload -> ', action.payload);
 
       if (newState.selectedItems.restaurantId !== action.payload.restaurantId) {
+        console.log("YES I REMOVED", "newState: ", newState.selectedItems.restaurantId, "old State", action.payload.restaurantId); 
         newState.selectedItems.items = [];
         removeAllItemFromCart();
       }
 
       if (action.payload.counterType === '+') {
-        addItemToCart(1, 1, action.payload.id, action.payload.addons);
+        addItemToCart(1, 1, action.payload.id, action.payload.addons.map(addon => addon.id));
         newState.selectedItems.items.push(action.payload);
       } else if (action.payload.orderId) {
         removeItemFromCart(action.payload.orderId);
@@ -62,6 +63,8 @@ let cartReducer = (state = defaultState, action) => {
         items: newState.selectedItems.items,
         restaurantId: action.payload.restaurantId,
       };
+
+      console.log("item in new State", newState.selectedItems.items);
 
       return newState;
     }

@@ -38,8 +38,8 @@ export default function MenuItems({
   const [modalVisible, setModalVisible] = useState(false);
   const [addOn, setAddOn] = useState([]);
   const [selectedAddOn, setSelectedAddOn] = useState([]);
+  const [selectedFood, setSelectedFood] = useState(null);
 
-  console.log('dishCounts ' + counter);
   const dispatch = useDispatch();
 
   const selectItem = (item, number, counterType) => {
@@ -47,11 +47,12 @@ export default function MenuItems({
       navigation.navigate('ViewCart');
       return;
     }
+    console.log('item in selected Item', item)
     dispatch({
       type: 'ADD_TO_CART',
       payload: {
         ...{id: item.id, qty: number, addons: selectedAddOn, price: item.price},
-        restaurantId: restaurantId,
+        restaurantId: item.restaurant_id,
         counterType: counterType,
       },
     });
@@ -95,13 +96,17 @@ export default function MenuItems({
                   marginTop: 30,
                   marginRight: 5,
                 }}
+<<<<<<< HEAD
                 onPress={() => {
+=======
+                onPress={async () => {
+                  setSelectedFood(food);
+>>>>>>> cd8db78d1ecff0d81cb76bfb224c870e9bfa0278
                   getAddOn(food.id);
                   setModalVisible(true);
                   let newArr = counter;
                   counter[index] = counter[index] + 1;
                   setCounter([...newArr]);
-                  selectItem(food, 1, '+');
                   console.log('counter increased: ', counter[index]);
                 }}
               />
@@ -139,7 +144,7 @@ export default function MenuItems({
                         iconStyle={{borderColor: 'green', margin: 10}}
                         onPress={isChecked => {
                           if (isChecked) {
-                            setSelectedAddOn([...selectedAddOn, item.id]);
+                            setSelectedAddOn([...selectedAddOn, item]);
                           } else {
                             setSelectedAddOn([
                               ...selectedAddOn.filter(
@@ -156,8 +161,13 @@ export default function MenuItems({
                     style={{backgroundColor: '#000', margin: 10}}
                     title="Done"
                     onPress={() => {
+<<<<<<< HEAD
                       console.log('Addon Items: ', selectedAddOn);
                       setModalVisible(false);
+=======
+                      setModalVisible(false)
+                      selectItem(selectedFood, 1, '+')
+>>>>>>> cd8db78d1ecff0d81cb76bfb224c870e9bfa0278
                     }}
                   />
                 </View>
