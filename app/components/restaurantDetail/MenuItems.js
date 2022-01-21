@@ -38,8 +38,8 @@ export default function MenuItems({
   const [modalVisible, setModalVisible] = useState(false);
   const [addOn, setAddOn] = useState([]);
   const [selectedAddOn, setSelectedAddOn] = useState([]);
+  const [selectedFood, setSelectedFood] = useState(null);
 
-  console.log('dishCounts ' + counter);
   const dispatch = useDispatch();
 
   const selectItem = (item, number, counterType) => {
@@ -47,11 +47,12 @@ export default function MenuItems({
       navigation.navigate('ViewCart');
       return;
     }
+    console.log('item in selected Item', item)
     dispatch({
       type: 'ADD_TO_CART',
       payload: {
         ...{id: item.id, qty: number, addons: selectedAddOn, price: item.price},
-        restaurantId: restaurantId,
+        restaurantId: item.restaurant_id,
         counterType: counterType,
       },
     });
@@ -96,12 +97,12 @@ export default function MenuItems({
                   marginRight: 5,
                 }}
                 onPress={async () => {
+                  setSelectedFood(food);
                   getAddOn(food.id);
                   setModalVisible(true);
                   let newArr = counter;
                   counter[index] = counter[index] + 1;
                   setCounter([...newArr]);
-                  selectItem(food, 1, '+');
                   console.log('counter increased: ', counter[index]);
                 }}
               />
@@ -139,7 +140,7 @@ export default function MenuItems({
                         iconStyle={{borderColor: 'green', margin: 10}}
                         onPress={isChecked => {
                           if (isChecked) {
-                            setSelectedAddOn([...selectedAddOn, item.id]);
+                            setSelectedAddOn([...selectedAddOn, item]);
                           } else {
                             setSelectedAddOn([
                               ...selectedAddOn.filter(
@@ -155,7 +156,10 @@ export default function MenuItems({
                   <Button
                     style={{backgroundColor: '#000', margin: 10}}
                     title="Done"
-                    onPress={() => setModalVisible(false)}
+                    onPress={() => {
+                      setModalVisible(false)
+                      selectItem(selectedFood, 1, '+')
+                    }}
                   />
                 </View>
               </SafeAreaView>

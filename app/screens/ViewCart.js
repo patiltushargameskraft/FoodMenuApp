@@ -12,6 +12,8 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 export default function ViewCart({navigation}) {
   const [data, setData] = useState([]);
   const {restaurantId} = useSelector(state => state.cartReducer.selectedItems);
+  const [updated, setUpdated] = useState(false);
+  const cartItems = useSelector(state => state.cartReducer.selectedItems.items);
 
   const getOrders = () => {
     axios
@@ -29,8 +31,16 @@ export default function ViewCart({navigation}) {
     getOrders();
   }, []);
 
+
+
   const total = items => {
-    return items.map(item => item.price).reduce((prev, curr) => prev + curr, 0);
+    let cost = 0, addonCost = 0;
+    console.log('totol', items);
+    for(let i = 0; i < items.length; i++){
+      cost += items[i].price * items[i].quantity;
+      addonCost += items[i].addons.map(addon => addon.price * items[i].quantity).reduce((prev, curr) => prev + curr, 0);
+    }
+    return [cost, addonCost];
   };
 
   const styles = StyleSheet.create({
@@ -72,27 +82,17 @@ export default function ViewCart({navigation}) {
   const dispatch = useDispatch();
 
   const selectItem = (item, number, counterType) => {
-    console.log(item + '##########################');
+    console.log(JSON.stringify(item) + '##########################');
     dispatch({
       type: 'ADD_TO_CART',
       payload: {
-        ...{id: item.dish_id, qty: number, addons: [], price: item.price},
-        restaurantId: restaurantId,
+        ...{id: item.dish_id, qty: number, addons: item.addons, price: item.price},
+        restaurantId: item.restaurant_id,
         counterType: counterType,
         orderId: item.order_id,
       },
     });
-  };
-
-  const cartItems = useSelector(state => state.cartReducer.selectedItems.items);
-
-  const isFoodInCart = (food, cartItems) => {
-    const idx = cartItems.findIndex(item => item.id === food.id);
-    if (idx === -1) {
-      return 0;
-    } else {
-      return cartItems[idx].qty;
-    }
+    setUpdated(!updated);
   };
 
   return (
@@ -136,10 +136,6 @@ export default function ViewCart({navigation}) {
               <OrderItem item={item} />
             </View>
           ))}
-          <View style={styles.subtotalContainer}>
-            <Text style={styles.subtotalText}>Subtotal</Text>
-            <Text>{total(data)}</Text>
-          </View>
           <View style={{flexDirection: 'row', justifyContent: 'center'}}>
             <TouchableOpacity
               style={{
@@ -164,7 +160,7 @@ export default function ViewCart({navigation}) {
                   fontSize: 15,
                   top: 17,
                 }}>
-                {total(data)}
+                ₹ {renderTotal(total(data))}
               </Text>
             </TouchableOpacity>
           </View>
@@ -173,4 +169,8 @@ export default function ViewCart({navigation}) {
       <BottomTabs navigation={navigation} />
     </SafeAreaView>
   );
+}
+
+const renderTotal = (total) => {
+  return <Text>{total[0] + total[1]}</Text>
 }
