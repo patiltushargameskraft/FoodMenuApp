@@ -31,14 +31,15 @@ export default function ViewCart({navigation}) {
     getOrders();
   }, []);
 
-
-
   const total = items => {
-    let cost = 0, addonCost = 0;
+    let cost = 0,
+      addonCost = 0;
     console.log('totol', items);
-    for(let i = 0; i < items.length; i++){
+    for (let i = 0; i < items.length; i++) {
       cost += items[i].price * items[i].quantity;
-      addonCost += items[i].addons.map(addon => addon.price * items[i].quantity).reduce((prev, curr) => prev + curr, 0);
+      addonCost += items[i].addons
+        .map(addon => addon.price * items[i].quantity)
+        .reduce((prev, curr) => prev + curr, 0);
     }
     return [cost, addonCost];
   };
@@ -86,7 +87,12 @@ export default function ViewCart({navigation}) {
     dispatch({
       type: 'ADD_TO_CART',
       payload: {
-        ...{id: item.dish_id, qty: number, addons: item.addons, price: item.price},
+        ...{
+          id: item.dish_id,
+          qty: number,
+          addons: item.addons,
+          price: item.price,
+        },
         restaurantId: item.restaurant_id,
         counterType: counterType,
         orderId: item.order_id,
@@ -171,6 +177,6 @@ export default function ViewCart({navigation}) {
   );
 }
 
-const renderTotal = (total) => {
-  return <Text>{total[0] + total[1]}</Text>
-}
+const renderTotal = total => {
+  return <Text>{total[0] + total[1]}</Text>;
+};

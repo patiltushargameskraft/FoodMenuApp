@@ -47,7 +47,7 @@ export default function MenuItems({
       navigation.navigate('ViewCart');
       return;
     }
-    console.log('item in selected Item', item)
+    console.log('item in selected Item', item);
     dispatch({
       type: 'ADD_TO_CART',
       payload: {
@@ -85,7 +85,7 @@ export default function MenuItems({
     <ScrollView showsVerticalScrollIndicator={false}>
       {foods.map((food, index) => (
         <View key={index}>
-          <Text style={styles.catStyle}>{food.cat}</Text>
+          {/* <Text style={styles.catStyle}>{food.cat}</Text> */}
           <View style={styles.menuItemStyle}>
             <View
               style={{flexDirection: 'row', justifyContent: 'space-around'}}>
@@ -96,12 +96,8 @@ export default function MenuItems({
                   marginTop: 30,
                   marginRight: 5,
                 }}
-<<<<<<< HEAD
-                onPress={() => {
-=======
                 onPress={async () => {
                   setSelectedFood(food);
->>>>>>> cd8db78d1ecff0d81cb76bfb224c870e9bfa0278
                   getAddOn(food.id);
                   setModalVisible(true);
                   let newArr = counter;
@@ -110,7 +106,7 @@ export default function MenuItems({
                   console.log('counter increased: ', counter[index]);
                 }}
               />
-              <Text>{counter[index]}</Text>
+              <Text>{counter[index] ? counter[index] : 0}</Text>
               <Button
                 title="-"
                 style={{backgroundColor: '#000', marginTop: 30}}
@@ -122,7 +118,7 @@ export default function MenuItems({
             <FoodInfo food={food} />
             <FoodImage food={food} marginLeft={marginLeft ? marginLeft : 0} />
           </View>
-          {addOn.length && modalVisible ? (
+          {modalVisible ? (
             <Modal>
               <SafeAreaView>
                 <View>
@@ -161,13 +157,8 @@ export default function MenuItems({
                     style={{backgroundColor: '#000', margin: 10}}
                     title="Done"
                     onPress={() => {
-<<<<<<< HEAD
-                      console.log('Addon Items: ', selectedAddOn);
                       setModalVisible(false);
-=======
-                      setModalVisible(false)
-                      selectItem(selectedFood, 1, '+')
->>>>>>> cd8db78d1ecff0d81cb76bfb224c870e9bfa0278
+                      selectItem(selectedFood, 1, '+');
                     }}
                   />
                 </View>
