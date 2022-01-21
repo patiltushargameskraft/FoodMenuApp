@@ -95,7 +95,7 @@ export default function MenuItems({
                   marginTop: 30,
                   marginRight: 5,
                 }}
-                onPress={async () => {
+                onPress={() => {
                   getAddOn(food.id);
                   setModalVisible(true);
                   let newArr = counter;
@@ -117,7 +117,7 @@ export default function MenuItems({
             <FoodInfo food={food} />
             <FoodImage food={food} marginLeft={marginLeft ? marginLeft : 0} />
           </View>
-          {modalVisible ? (
+          {addOn.length && modalVisible ? (
             <Modal>
               <SafeAreaView>
                 <View>
@@ -155,7 +155,10 @@ export default function MenuItems({
                   <Button
                     style={{backgroundColor: '#000', margin: 10}}
                     title="Done"
-                    onPress={() => setModalVisible(false)}
+                    onPress={() => {
+                      console.log('Addon Items: ', selectedAddOn);
+                      setModalVisible(false);
+                    }}
                   />
                 </View>
               </SafeAreaView>
