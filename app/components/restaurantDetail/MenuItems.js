@@ -118,7 +118,7 @@ export default function MenuItems({
             <FoodInfo food={food} />
             <FoodImage food={food} marginLeft={marginLeft ? marginLeft : 0} />
           </View>
-          {modalVisible ? (
+          {addOn.length && modalVisible ? (
             <Modal>
               <SafeAreaView>
                 <View>
