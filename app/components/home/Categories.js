@@ -7,23 +7,23 @@ const checkMark = require('../../assets/images/tick-mark.png')
 
 const allCategories = [
   {
-    image: require('../../assets/images/shopping-bag.png'),
+    image: require('../../assets/images/dish.png'),
     text: 'Dish',
   },
   {
-    image: require('../../assets/images/soft-drink.png'),
+    image: require('../../assets/images/cuisine.png'),
     text: 'Cuisine',
   },
   {
-    image: require('../../assets/images/bread.png'),
+    image: require('../../assets/images/options.png'),
     text: 'Categories',
   },
   {
-    image: require('../../assets/images/fast-food.png'),
+    image: require('../../assets/images/recipe-book.png'),
     text: 'Description',
   },
   {
-    image: require('../../assets/images/deals.png'),
+    image: require('../../assets/images/restaurant.png'),
     text: 'Restaurants',
   },
 ];
