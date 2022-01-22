@@ -33,7 +33,7 @@ export default function Home({navigation}) {
         <RestaurantItems restaurantData={fav} navigation={navigation} />
       </ScrollView>
       <Divider width={1} />
-      <BottomTabs navigation={navigation} />
+      <BottomTabs navigation={navigation} tab="heart" />
     </SafeAreaView>
   );
 }

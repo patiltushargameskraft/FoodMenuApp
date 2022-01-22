@@ -19,7 +19,9 @@ export default function RestaurantDetail({route, navigation}) {
   const [present, setPresent] = useState(false);
   useEffect(() => {
     axios
-      .get(`https://food-menu-app-backend.herokuapp.com/restaurant/getDishes/${route.params.resId}`)
+      .get(
+        `https://food-menu-app-backend.herokuapp.com/restaurant/getDishes/${route.params.resId}`,
+      )
       .then(res => {
         setfoods(res.data.data);
       });
@@ -27,12 +29,16 @@ export default function RestaurantDetail({route, navigation}) {
 
   const Delete = x => {
     axios
-      .delete(`https://food-menu-app-backend.herokuapp.com/restaurant/removeResFromFav/1/${x}`)
+      .delete(
+        `https://food-menu-app-backend.herokuapp.com/restaurant/removeResFromFav/1/${x}`,
+      )
       .then(Alert.alert('Removed'));
   };
   const Add = x => {
     axios
-      .post(`https://food-menu-app-backend.herokuapp.com/restaurant/addResToFav/1/${x}`)
+      .post(
+        `https://food-menu-app-backend.herokuapp.com/restaurant/addResToFav/1/${x}`,
+      )
       .then(Alert.alert('Added'));
   };
 
@@ -52,6 +58,7 @@ export default function RestaurantDetail({route, navigation}) {
             }}
             isChecked={isChecked}
             rightText={'Favourite'}
+            rightTextStyle={{style: 'black'}}
           />
           <MyIcon
             name="search"

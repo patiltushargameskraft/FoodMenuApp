@@ -12,7 +12,7 @@ export default function Home({navigation}) {
 
   useEffect(() => {
     axios
-      .get('https://food-menu-app-backend.herokuapp.com/')
+      .get('http://food-menu-app-backend.herokuapp.com/')
       .then(res => {
         setPromotedRes(res.data.data);
       })
@@ -33,7 +33,7 @@ export default function Home({navigation}) {
         <RestaurantItems restaurantData={promotedRes} navigation={navigation} />
       </ScrollView>
       <Divider width={1} />
-      <BottomTabs navigation={navigation} />
+      <BottomTabs navigation={navigation} tab="home" />
     </SafeAreaView>
   );
 }

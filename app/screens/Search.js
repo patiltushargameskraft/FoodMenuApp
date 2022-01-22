@@ -10,7 +10,7 @@ export default function Search({route, navigation}) {
     <SafeAreaView style={{backgroundColor: '#eee', flex: 1}}>
       <SearchPage route={route} navigation={navigation} />
       <Divider width={1} />
-      <BottomTabs navigation={navigation} />
+      <BottomTabs navigation={navigation} tab="search" />
     </SafeAreaView>
   );
 }

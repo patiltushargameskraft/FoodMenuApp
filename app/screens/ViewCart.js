@@ -177,7 +177,7 @@ export default function ViewCart({navigation}) {
           </View>
         </ScrollView>
       </View>
-      <BottomTabs navigation={navigation} />
+      <BottomTabs navigation={navigation} tab="shopping-cart" />
     </SafeAreaView>
   );
 }
