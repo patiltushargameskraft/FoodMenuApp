@@ -11,9 +11,12 @@ export default function Home({navigation}) {
   const [promotedRes, setPromotedRes] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:3000/').then(res => {
-      setPromotedRes(res.data.data);
-    });
+    axios
+      .get('https://food-menu-app-backend.herokuapp.com/')
+      .then(res => {
+        setPromotedRes(res.data.data);
+      })
+      .catch(err => console.log(err));
   }, []);
 
   return (

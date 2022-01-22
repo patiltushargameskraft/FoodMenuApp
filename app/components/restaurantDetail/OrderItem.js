@@ -12,7 +12,7 @@ const total = item => {
     .map(addon => addon.price * item.quantity)
     .reduce((prev, curr) => prev + curr, 0);
   return [cost, addonCost];
-};;
+};
 
 export default function OrderItem({item}) {
   const {id, price, name} = item;
@@ -25,13 +25,14 @@ export default function OrderItem({item}) {
           borderBottomWidth: 1,
           borderBottomColor: '#999',
         }}>
-        <Text style={{fontWeight: '600', fontSize: 16, margin: 2}}>
+        <Text
+          style={{color: 'black', fontWeight: '600', fontSize: 16, margin: 2}}>
           {name} {item.quantity > 1 ? `x ${item.quantity}` : null}
         </Text>
-        <Text style={{opacity: 0.7, fontSize: 16, margin: 2}}>
+        <Text style={{color: 'black', opacity: 0.7, fontSize: 16, margin: 2}}>
           ₹ {renderTotal(total(item))}
         </Text>
-        <Text>Addons applied: </Text>
+        <Text style={{color: 'black'}}>Addons applied: </Text>
       </View>
       <FlatList
         horizontal
@@ -40,8 +41,10 @@ export default function OrderItem({item}) {
           return (
             <TouchableOpacity activeOpacity={0.5}>
               <Card>
-                <Text style={{marginBottom: 10}}>{rowData.name}</Text>
-                <Text>₹ {rowData.price}</Text>
+                <Text style={{color: 'black', marginBottom: 10}}>
+                  {rowData.name}
+                </Text>
+                <Text style={{color: 'black'}}>₹ {rowData.price}</Text>
               </Card>
             </TouchableOpacity>
           );
@@ -55,7 +58,7 @@ export default function OrderItem({item}) {
 const renderTotal = total => {
   console.log('render Total', total);
   return (
-    <Text>
+    <Text style={{color: 'black'}}>
       {total[0]} {total[1] ? `+ ${total[1]}` : null}{' '}
     </Text>
   );

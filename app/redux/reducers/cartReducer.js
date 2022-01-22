@@ -6,7 +6,7 @@ let defaultState = {
 
 const addItemToCart = (quantity, userId, dishId, addons) => {
   axios
-    .post('http://localhost:3000/dish/addDishToCart/', {
+    .post('https://food-menu-app-backend.herokuapp.com/dish/addDishToCart/', {
       quantity: quantity,
       userId: userId,
       dishId: dishId,
@@ -21,7 +21,7 @@ const addItemToCart = (quantity, userId, dishId, addons) => {
 
 const removeItemFromCart = orderId => {
   axios
-    .delete(`http://localhost:3000/cart/deleteFromCart/1/${orderId}`)
+    .delete(`https://food-menu-app-backend.herokuapp.com/cart/deleteFromCart/1/${orderId}`)
     .catch(err => {
       console.log(err);
       throw err;
@@ -31,7 +31,7 @@ const removeItemFromCart = orderId => {
 
 const removeAllItemFromCart = () => {
   axios
-    .delete('http://localhost:3000/cart/checkOutCartItems/1')
+    .delete('https://food-menu-app-backend.herokuapp.com/cart/checkOutCartItems/1')
     .catch(err => {
       console.log(err);
       throw err;

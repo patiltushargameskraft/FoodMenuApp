@@ -52,8 +52,10 @@ const RestaurantInfo = props => (
       marginTop: 10,
     }}>
     <View>
-      <Text style={{fontSize: 15, fontWeight: 'bold'}}>{props.name}</Text>
-      <Text style={{fontSize: 13, color: 'gray'}}>30-45 • min</Text>
+      <Text style={{fontSize: 15, fontWeight: 'bold', color: 'black'}}>
+        {props.name}
+      </Text>
+      <Text style={{fontSize: 13, color: 'black'}}>30-45 • min</Text>
     </View>
   </View>
 );

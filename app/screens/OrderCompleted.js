@@ -11,7 +11,7 @@ export default function OrderCompleted() {
 
   const getOrders = () => {
     axios
-      .get('http://localhost:3000/cart/1')
+      .get('https://food-menu-app-backend.herokuapp.com/cart/1')
       .then(res => {
         setData(res.data.data);
       })
@@ -23,7 +23,9 @@ export default function OrderCompleted() {
 
   const checkOutOrders = () => {
     axios
-      .delete('http://localhost:3000/cart/checkOutCartItems/1')
+      .delete(
+        'https://food-menu-app-backend.herokuapp.com/cart/checkOutCartItems/1',
+      )
       .catch(err => {
         console.log(err);
         throw err;
@@ -34,10 +36,6 @@ export default function OrderCompleted() {
     getOrders();
     checkOutOrders();
   }, []);
-
-  const total = items => {
-    return items.map(item => item.price).reduce((prev, curr) => prev + curr, 0);
-  };
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
@@ -54,8 +52,8 @@ export default function OrderCompleted() {
           speed={0.5}
           loop={false}
         />
-        <Text style={{fontSize: 20, fontWeight: 'bold'}}>
-          Your order at {restaurantId} has been placed for {'₹' + total(data)}
+        <Text style={{color: 'black', fontSize: 20, fontWeight: 'bold'}}>
+          Your order has been placed
         </Text>
         <ScrollView>
           <LottieView

@@ -10,9 +10,12 @@ export default function Home({navigation}) {
   const [fav, setFav] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:3000/getFavRes/1').then(res => {
-      setFav(res.data.data);
-    });
+    axios
+      .get('https://food-menu-app-backend.herokuapp.com/getFavRes/1')
+      .then(res => {
+        setFav(res.data.data);
+      })
+      .catch(err => console.log(err));
   }, []);
 
   return (
@@ -20,6 +23,7 @@ export default function Home({navigation}) {
       <ScrollView showsVerticalScrollIndicator={false}>
         <Text
           style={{
+            color: 'black',
             marginLeft: 10,
             fontSize: 30,
             fontWeight: 'bold',

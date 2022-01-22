@@ -18,7 +18,7 @@
 
 //   useEffect(() => {
 //     console.log('yes');
-//     // axios.get('http://localhost:3000/cart/1').then(res => {
+//     // axios.get('https://food-menu-app-backend.herokuapp.com/cart/1').then(res => {
 //     //   setData(res.data.data);
 //     //   setTotal(
 //     //     data.map(item => item.price).reduce((prev, curr) => prev + curr, 0),

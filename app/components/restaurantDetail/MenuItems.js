@@ -14,15 +14,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     margin: 20,
+    color: 'black',
   },
   catStyle: {
     fontSize: 21,
     fontWeight: '700',
     textAlign: 'center',
+    color: 'black',
   },
   titleStyle: {
     fontSize: 19,
-    fontWeight: '600',
+    fontWeight: '900',
+    color: 'black',
   },
 });
 
@@ -65,7 +68,9 @@ export default function MenuItems({
       const response = await Promise.all(
         foods.map(food => {
           return axios
-            .get(`http://localhost:3000/dish/getInstancesInCart/1/${food.id}`)
+            .get(
+              `https://food-menu-app-backend.herokuapp.com/dish/getInstancesInCart/1/${food.id}`,
+            )
             .then(res => res.data.data[0].count);
         }),
       );
@@ -76,9 +81,13 @@ export default function MenuItems({
   }, [foods]);
 
   const getAddOn = foodId => {
-    axios.get(`http://localhost:3000/dish/getAddons/${foodId}`).then(res => {
-      setAddOn(res.data.data);
-    });
+    axios
+      .get(
+        `https://food-menu-app-backend.herokuapp.com/dish/getAddons/${foodId}`,
+      )
+      .then(res => {
+        setAddOn(res.data.data);
+      });
   };
 
   return (
@@ -91,12 +100,14 @@ export default function MenuItems({
               style={{flexDirection: 'row', justifyContent: 'space-around'}}>
               <Button
                 title="+"
-                style={{
+                buttonStyle={{
+                  color: 'black',
                   backgroundColor: '#000',
                   marginTop: 30,
                   marginRight: 5,
+                  width: 25,
                 }}
-                onPress={async () => {
+                onPress={() => {
                   setSelectedFood(food);
                   getAddOn(food.id);
                   setModalVisible(true);
@@ -106,10 +117,16 @@ export default function MenuItems({
                   console.log('counter increased: ', counter[index]);
                 }}
               />
-              <Text>{counter[index] ? counter[index] : 0}</Text>
+              <Text style={{color: 'black'}}>
+                {counter[index] ? counter[index] : 0}
+              </Text>
               <Button
                 title="-"
-                style={{backgroundColor: '#000', marginTop: 30}}
+                buttonStyle={{
+                  backgroundColor: '#000',
+                  marginTop: 30,
+                  width: 25,
+                }}
                 onPress={() => {
                   selectItem(food, 1, '-');
                 }}
@@ -118,7 +135,7 @@ export default function MenuItems({
             <FoodInfo food={food} />
             <FoodImage food={food} marginLeft={marginLeft ? marginLeft : 0} />
           </View>
-          {addOn.length && modalVisible ? (
+          {modalVisible ? (
             <Modal>
               <SafeAreaView>
                 <View>
@@ -154,7 +171,7 @@ export default function MenuItems({
                     </View>
                   ))}
                   <Button
-                    style={{backgroundColor: '#000', margin: 10}}
+                    buttonStyle={{backgroundColor: '#000', margin: 10}}
                     title="Done"
                     onPress={() => {
                       setModalVisible(false);
@@ -181,8 +198,8 @@ export default function MenuItems({
 const FoodInfo = props => (
   <View style={{width: 150, justifyContent: 'space-evenly', marginLeft: 10}}>
     <Text style={styles.titleStyle}>{props.food.name}</Text>
-    <Text>{props.food.description}</Text>
-    <Text>{props.food.price}</Text>
+    <Text style={{color: 'black'}}>{props.food.description}</Text>
+    <Text style={{color: 'black'}}>{props.food.price}</Text>
   </View>
 );
 

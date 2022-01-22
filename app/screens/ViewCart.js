@@ -17,13 +17,12 @@ export default function ViewCart({navigation}) {
 
   const getOrders = () => {
     axios
-      .get('http://localhost:3000/cart/1')
+      .get('https://food-menu-app-backend.herokuapp.com/cart/1')
       .then(res => {
         setData(res.data.data);
       })
       .catch(err => {
         console.log(err);
-        throw err;
       });
   };
 
@@ -60,6 +59,7 @@ export default function ViewCart({navigation}) {
     },
 
     restaurantName: {
+      color: 'black',
       textAlign: 'center',
       fontWeight: '600',
       fontSize: 18,
@@ -73,6 +73,7 @@ export default function ViewCart({navigation}) {
     },
 
     subtotalText: {
+      color: 'black',
       textAlign: 'left',
       fontWeight: '600',
       fontSize: 15,
@@ -105,7 +106,7 @@ export default function ViewCart({navigation}) {
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.modalContainer}>
         <ScrollView style={styles.modalCheckoutContainer}>
-          <Text style={styles.restaurantName}>{restaurantId}</Text>
+          <Text style={styles.restaurantName}>Your Cart</Text>
           {data.map((item, index) => (
             <View
               key={index}
@@ -120,7 +121,7 @@ export default function ViewCart({navigation}) {
                 style={{flexDirection: 'row', justifyContent: 'space-around'}}>
                 <Button
                   title="+"
-                  style={{
+                  buttonStyle={{
                     backgroundColor: '#000',
                     marginTop: 30,
                     marginRight: 5,
@@ -132,7 +133,7 @@ export default function ViewCart({navigation}) {
                 />
                 <Button
                   title="-"
-                  style={{backgroundColor: '#000', marginTop: 30}}
+                  buttonStyle={{backgroundColor: '#000', marginTop: 30}}
                   onPress={() => {
                     getOrders();
                     selectItem(item, 1, '-');
@@ -155,7 +156,11 @@ export default function ViewCart({navigation}) {
                 position: 'relative',
               }}
               onPress={() => {
-                navigation.navigate('OrderCompleted');
+                if (data.length) {
+                  navigation.navigate('OrderCompleted');
+                } else {
+                  navigation.navigate('Home');
+                }
               }}>
               <Text style={{color: 'white', fontSize: 20}}>Checkout</Text>
               <Text
