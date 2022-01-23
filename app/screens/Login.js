@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
 import {
   StyleSheet,
@@ -57,9 +58,8 @@ export default function Login({navigation}) {
         <TextInput
           style={styles.inputs}
           placeholder="username"
-          placeholderTextColor="grey"
+          placeholderTextColor="black"
           keyboardType="email-address"
-          underlineColorAndroid="transparent"
           onChangeText={text => setEmail(text)}
         />
       </View>
@@ -72,9 +72,8 @@ export default function Login({navigation}) {
         <TextInput
           style={styles.inputs}
           placeholder="Password"
-          placeholderTextColor="grey" 
+          placeholderTextColor="black"
           secureTextEntry={true}
-          underlineColorAndroid="transparent"
           onChangeText={text => setPassword(text)}
         />
       </View>
@@ -92,7 +91,7 @@ export default function Login({navigation}) {
         onPress={() => {
           navigation.navigate('Signup');
         }}>
-        <Text>New Here? Signup here</Text>
+        <Text style={{color: 'black'}}>New Here? Signup here</Text>
       </TouchableOpacity>
     </View>
   );

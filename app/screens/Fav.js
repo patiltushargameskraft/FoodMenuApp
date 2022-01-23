@@ -5,7 +5,7 @@ import {Divider} from 'react-native-elements';
 import BottomTabs from '../components/home/BottomTabs';
 import RestaurantItems from '../components/home/RestaurantItems';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 
 export default function Home({navigation}) {
   const [fav, setFav] = useState([]);

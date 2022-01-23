@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import axios from 'axios';
 import React, {useState} from 'react';
 import {
@@ -5,7 +6,6 @@ import {
   Text,
   View,
   TextInput,
-  TouchableHighlight,
   Image,
   TouchableOpacity,
 } from 'react-native';
@@ -48,9 +48,8 @@ export default function Signup({navigation}) {
         <TextInput
           style={styles.inputs}
           placeholder="username"
-          placeholderTextColor="grey"
+          placeholderTextColor="black"
           keyboardType="email-address"
-          underlineColorAndroid="transparent"
           onChangeText={text => setEmail(text)}
         />
       </View>
@@ -63,9 +62,8 @@ export default function Signup({navigation}) {
         <TextInput
           style={styles.inputs}
           placeholder="Password"
-          placeholderTextColor="grey"
+          placeholderTextColor="black"
           secureTextEntry={true}
-          underlineColorAndroid="transparent"
           onChangeText={text => setPassword(text)}
         />
       </View>
@@ -83,7 +81,7 @@ export default function Signup({navigation}) {
         onPress={() => {
           navigation.navigate('Login');
         }}>
-        <Text>Already have an account? Login</Text>
+        <Text style={{color: 'black'}}>Already have an account? Login</Text>
       </TouchableOpacity>
     </View>
   );
