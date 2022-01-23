@@ -106,6 +106,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   inputs: {
+    color: 'black',
     height: 45,
     marginLeft: 16,
     borderBottomColor: '#FFFFFF',

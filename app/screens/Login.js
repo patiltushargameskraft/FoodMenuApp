@@ -11,6 +11,7 @@ import {
 import axios from 'axios';
 import {useDispatch} from 'react-redux';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import { black } from 'react-native-paper/lib/typescript/styles/colors';
 
 export default function Login({navigation}) {
   const [email, setEmail] = useState('');
@@ -116,6 +117,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   inputs: {
+    color: 'black',
     height: 45,
     marginLeft: 16,
     borderBottomColor: '#FFFFFF',
