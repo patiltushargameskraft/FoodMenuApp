@@ -33,14 +33,16 @@ export default function RestaurantDetail({route, navigation}) {
       .then(res => {
         setFav(res.data.data);
       });
+    
+  }, []);
+  useEffect(() => {
     for (var i = 0; i < fav.length; i++) {
       if (fav[i].id == route.params.resId) {
         setChecked(true);
         console.log('set  ' + fav[i].id);
       }
     }
-  }, []);
-
+  })
   const Delete = x => {
     axios
       .delete(
