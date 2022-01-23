@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import React, {useState, useEffect} from 'react';
 import {StyleSheet, SafeAreaView, ScrollView} from 'react-native';
 import {Divider} from 'react-native-elements';

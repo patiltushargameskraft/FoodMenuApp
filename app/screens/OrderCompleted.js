@@ -8,10 +8,11 @@ import axios from 'axios';
 export default function OrderCompleted() {
   const {restaurantId} = useSelector(state => state.cartReducer.selectedItems);
   const [data, setData] = useState([]);
+  const {userId} = useSelector(state => state.userReducer);
 
   const getOrders = () => {
     axios
-      .get('https://food-menu-app-backend.herokuapp.com/cart/1')
+      .get(`https://food-menu-app-backend.herokuapp.com/cart/${userId}`)
       .then(res => {
         setData(res.data.data);
       })
@@ -24,7 +25,7 @@ export default function OrderCompleted() {
   const checkOutOrders = () => {
     axios
       .delete(
-        'https://food-menu-app-backend.herokuapp.com/cart/checkOutCartItems/1',
+        `https://food-menu-app-backend.herokuapp.com/cart/checkOutCartItems/${userId}`,
       )
       .catch(err => {
         console.log(err);

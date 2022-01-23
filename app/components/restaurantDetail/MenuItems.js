@@ -8,6 +8,7 @@ import axios from 'axios';
 import {Button} from 'react-native-elements/dist/buttons/Button';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
+import {useSelector} from 'react-redux';
 
 const styles = StyleSheet.create({
   menuItemStyle: {
@@ -42,6 +43,9 @@ export default function MenuItems({
   const [addOn, setAddOn] = useState([]);
   const [selectedAddOn, setSelectedAddOn] = useState([]);
   const [selectedFood, setSelectedFood] = useState(null);
+  const {userId} = useSelector(state => state.userReducer);
+
+  console.log(userId);
 
   const dispatch = useDispatch();
 
@@ -57,6 +61,7 @@ export default function MenuItems({
         ...{id: item.id, qty: number, addons: selectedAddOn, price: item.price},
         restaurantId: item.restaurant_id,
         counterType: counterType,
+        userId: userId,
       },
     });
 
@@ -69,9 +74,10 @@ export default function MenuItems({
         foods.map(food => {
           return axios
             .get(
-              `https://food-menu-app-backend.herokuapp.com/dish/getInstancesInCart/1/${food.id}`,
+              `https://food-menu-app-backend.herokuapp.com/dish/getInstancesInCart/${userId}/${food.id}`,
             )
-            .then(res => res.data.data[0].count);
+            .then(res => res.data.data[0].count)
+            .catch(err => console.log('menuItem page: ', userId, err));
         }),
       );
       console.log(response);

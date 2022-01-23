@@ -11,12 +11,14 @@ import BottomTabs from '../components/home/BottomTabs';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import CheckBox from 'react-native-check-box';
 import {MyIcon} from '../components/home/BottomTabs';
+import {useSelector} from 'react-redux';
 
 export default function RestaurantDetail({route, navigation}) {
   const [foods, setfoods] = useState([]);
   const [fav, setFav] = useState([]);
   const [isChecked, setChecked] = useState(false);
   const [present, setPresent] = useState(false);
+  const {userId} = useSelector(state => state.userReducer);
 
   useEffect(() => {
     axios
@@ -29,7 +31,7 @@ export default function RestaurantDetail({route, navigation}) {
   }, [route.params.resId]);
   useEffect(() => {
     axios
-      .get('https://food-menu-app-backend.herokuapp.com/getFavRes/1')
+      .get(`https://food-menu-app-backend.herokuapp.com/getFavRes/${userId}`)
       .then(res => {
         setFav(res.data.data);
       });
@@ -44,14 +46,14 @@ export default function RestaurantDetail({route, navigation}) {
   const Delete = x => {
     axios
       .delete(
-        `https://food-menu-app-backend.herokuapp.com/restaurant/removeResFromFav/1/${x}`,
+        `https://food-menu-app-backend.herokuapp.com/restaurant/removeResFromFav/${userId}/${x}`,
       )
       .then(Alert.alert('Removed'));
   };
   const Add = x => {
     axios
       .post(
-        `https://food-menu-app-backend.herokuapp.com/restaurant/addResToFav/1/${x}`,
+        `https://food-menu-app-backend.herokuapp.com/restaurant/addResToFav/${userId}/${x}`,
       )
       .then(Alert.alert('Added'));
   };

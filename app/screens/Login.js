@@ -8,10 +8,23 @@ import {
   Image,
 } from 'react-native';
 import axios from 'axios';
+import {useDispatch} from 'react-redux';
 
 export default function Login({navigation}) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const dispatch = useDispatch();
+
+  const setUserId = userId => {
+    console.log('userId: ', userId);
+    dispatch({
+      type: 'USER',
+      payload: {
+        userId: userId,
+      },
+    });
+  };
 
   const handleLogin = () => {
     axios
@@ -22,6 +35,7 @@ export default function Login({navigation}) {
       .then(res => {
         console.log(res.data.data);
         if (res.data.success) {
+          setUserId(res.data.data[0].id);
           navigation.navigate('Home');
         } else {
           alert('Please enter correct details!!!');

@@ -14,10 +14,11 @@ export default function ViewCart({navigation}) {
   const {restaurantId} = useSelector(state => state.cartReducer.selectedItems);
   const [updated, setUpdated] = useState(false);
   const cartItems = useSelector(state => state.cartReducer.selectedItems.items);
+  const {userId} = useSelector(state => state.userReducer);
 
   const getOrders = () => {
     axios
-      .get('https://food-menu-app-backend.herokuapp.com/cart/1')
+      .get(`https://food-menu-app-backend.herokuapp.com/cart/${userId}`)
       .then(res => {
         setData(res.data.data);
       })

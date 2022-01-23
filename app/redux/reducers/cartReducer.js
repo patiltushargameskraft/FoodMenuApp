@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {useSelector} from 'react-redux';
 
 let defaultState = {
   selectedItems: {items: [], restaurantId: ''},
@@ -19,10 +20,10 @@ const addItemToCart = (quantity, userId, dishId, addons) => {
     .then(() => console.log('Added to cart'));
 };
 
-const removeItemFromCart = orderId => {
+const removeItemFromCart = (orderId, userId) => {
   axios
     .delete(
-      `https://food-menu-app-backend.herokuapp.com/cart/deleteFromCart/1/${orderId}`,
+      `https://food-menu-app-backend.herokuapp.com/cart/deleteFromCart/${userId}/${orderId}`,
     )
     .catch(err => {
       console.log(err);
@@ -31,10 +32,10 @@ const removeItemFromCart = orderId => {
     .then(() => console.log('Removed from cart'));
 };
 
-const removeAllItemFromCart = () => {
+const removeAllItemFromCart = userId => {
   axios
     .delete(
-      'https://food-menu-app-backend.herokuapp.com/cart/checkOutCartItems/1',
+      `https://food-menu-app-backend.herokuapp.com/cart/checkOutCartItems/${userId}`,
     )
     .catch(err => {
       console.log(err);
@@ -58,19 +59,19 @@ let cartReducer = (state = defaultState, action) => {
           action.payload.restaurantId,
         );
         newState.selectedItems.items = [];
-        removeAllItemFromCart();
+        removeAllItemFromCart(action.payload.userId);
       }
 
       if (action.payload.counterType === '+') {
         addItemToCart(
           1,
-          1,
+          action.payload.userId,
           action.payload.id,
           action.payload.addons.map(addon => addon.id),
         );
         newState.selectedItems.items.push(action.payload);
       } else if (action.payload.orderId) {
-        removeItemFromCart(action.payload.orderId);
+        removeItemFromCart(action.payload.orderId, action.payload.userId);
       }
 
       newState.selectedItems = {

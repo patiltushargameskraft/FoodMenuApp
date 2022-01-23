@@ -5,13 +5,15 @@ import {Divider} from 'react-native-elements';
 import BottomTabs from '../components/home/BottomTabs';
 import RestaurantItems from '../components/home/RestaurantItems';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 export default function Home({navigation}) {
   const [fav, setFav] = useState([]);
+  const {userId} = useSelector(state => state.userReducer);
 
   useEffect(() => {
     axios
-      .get('https://food-menu-app-backend.herokuapp.com/getFavRes/1')
+      .get(`https://food-menu-app-backend.herokuapp.com/getFavRes/${userId}`)
       .then(res => {
         setFav(res.data.data);
       })

@@ -21,7 +21,7 @@ export default function Signup({navigation}) {
       })
       .then(res => {
         console.log(res.data.data);
-        navigation.navigate('Home');
+        navigation.navigate('Login');
       })
       .catch(err => console.log('sign up', err));
   };
