@@ -7,6 +7,7 @@ import {
   TextInput,
   TouchableHighlight,
   Image,
+  TouchableOpacity,
 } from 'react-native';
 
 export default function Signup({navigation}) {
@@ -14,14 +15,27 @@ export default function Signup({navigation}) {
   const [password, setPassword] = useState('');
 
   const handleSignup = () => {
+    if(!email){
+      alert('please enter a valid username');
+    }else if(!password && password.length < 3){
+      alert('Please Make sure password contains atleast 3 characters')
+    }
     axios
       .post('https://food-menu-app-backend.herokuapp.com/user/signup/', {
         username: email,
         password: password,
       })
       .then(res => {
+<<<<<<< HEAD
         console.log(res.data.data);
         navigation.navigate('Login');
+=======
+        if(res.data.success)
+          navigation.navigate('Home');
+        else{
+          alert('Username already exists, Please try another username')
+        }
+>>>>>>> 0c0d2065bf1c7aac436bffd096b56f303301c35e
       })
       .catch(err => console.log('sign up', err));
   };
@@ -37,10 +51,11 @@ export default function Signup({navigation}) {
         />
         <TextInput
           style={styles.inputs}
-          placeholder="Email"
+          placeholder="username"
+          placeholderTextColor="grey"
           keyboardType="email-address"
           underlineColorAndroid="transparent"
-          onChangeText={text => setEmail({text})}
+          onChangeText={text => setEmail(text)}
         />
       </View>
 
@@ -52,27 +67,28 @@ export default function Signup({navigation}) {
         <TextInput
           style={styles.inputs}
           placeholder="Password"
+          placeholderTextColor="grey"
           secureTextEntry={true}
           underlineColorAndroid="transparent"
-          onChangeText={text => setPassword({text})}
+          onChangeText={text => setPassword(text)}
         />
       </View>
 
-      <TouchableHighlight
+      <TouchableOpacity
         style={[styles.buttonContainer, styles.loginButton]}
         onPress={() => {
           handleSignup();
         }}>
         <Text style={styles.loginText}>Signup</Text>
-      </TouchableHighlight>
+      </TouchableOpacity>
 
-      <TouchableHighlight
+      <TouchableOpacity
         style={styles.buttonContainer}
         onPress={() => {
           navigation.navigate('Login');
         }}>
-        <Text>Login</Text>
-      </TouchableHighlight>
+        <Text>Already have an account? Login</Text>
+      </TouchableOpacity>
     </View>
   );
 }

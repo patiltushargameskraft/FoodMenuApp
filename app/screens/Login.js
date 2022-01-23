@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import {useDispatch} from 'react-redux';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 export default function Login({navigation}) {
   const [email, setEmail] = useState('');
@@ -38,7 +39,7 @@ export default function Login({navigation}) {
           setUserId(res.data.data[0].id);
           navigation.navigate('Home');
         } else {
-          alert('Please enter correct details!!!');
+          alert('Username or Password Incorrect');
         }
       })
       .catch(err => console.log('log in', err));
@@ -55,10 +56,11 @@ export default function Login({navigation}) {
         />
         <TextInput
           style={styles.inputs}
-          placeholder="Email"
+          placeholder="username"
+          placeholderTextColor="grey" 
           keyboardType="email-address"
           underlineColorAndroid="transparent"
-          onChangeText={text => setEmail({text})}
+          onChangeText={text => setEmail(text)}
         />
       </View>
 
@@ -70,27 +72,28 @@ export default function Login({navigation}) {
         <TextInput
           style={styles.inputs}
           placeholder="Password"
+          placeholderTextColor="grey" 
           secureTextEntry={true}
           underlineColorAndroid="transparent"
-          onChangeText={text => setPassword({text})}
+          onChangeText={text => setPassword(text)}
         />
       </View>
 
-      <TouchableHighlight
+      <TouchableOpacity
         style={[styles.buttonContainer, styles.loginButton]}
         onPress={() => {
           handleLogin();
         }}>
         <Text style={styles.loginText}>Login</Text>
-      </TouchableHighlight>
+      </TouchableOpacity>
 
-      <TouchableHighlight
+      <TouchableOpacity
         style={styles.buttonContainer}
         onPress={() => {
           navigation.navigate('Signup');
         }}>
-        <Text>Signup</Text>
-      </TouchableHighlight>
+        <Text>New Here? Signup here</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -109,7 +112,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     width: 250,
     height: 45,
-    marginBottom: 20,
+    marginBottom: 30,
     flexDirection: 'row',
     alignItems: 'center',
   },
