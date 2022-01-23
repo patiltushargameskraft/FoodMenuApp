@@ -174,7 +174,7 @@ export default function MenuItems({
                     buttonStyle={{backgroundColor: '#000', margin: 10}}
                     title="Back"
                     onPress={() => {
-                      
+                      setSelectedAddOn([]);
                       setModalVisible(false);
                       
                     }}
