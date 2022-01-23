@@ -17,6 +17,7 @@ export default function RestaurantDetail({route, navigation}) {
   const [fav, setFav] = useState([]);
   const [isChecked, setChecked] = useState(false);
   const [present, setPresent] = useState(false);
+  
   useEffect(() => {
     axios
       .get(
@@ -26,7 +27,27 @@ export default function RestaurantDetail({route, navigation}) {
         setfoods(res.data.data);
       });
   }, [route.params.resId]);
+  useEffect(() => {
+    axios
+      .get('https://food-menu-app-backend.herokuapp.com/getFavRes/1')
+      .then(res => {
+        setFav(res.data.data);
+      });
+      for(var i=0;i<fav.length;i++)
+      {
+         if(fav[i].id==route.params.resId)
+         {
+            setChecked(true);
+            console.log('set  ' + fav[i].id)
+         }
+          
+       }
+  
+     
+  }, [route.params.resId]);
 
+  
+  
   const Delete = x => {
     axios
       .delete(
@@ -41,7 +62,7 @@ export default function RestaurantDetail({route, navigation}) {
       )
       .then(Alert.alert('Added'));
   };
-
+  
   return (
     <>
       <SafeAreaView style={{marginTop: 0, flex: 1}}>
