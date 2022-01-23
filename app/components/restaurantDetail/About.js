@@ -1,7 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {View, Text, Image} from 'react-native';
-import { black } from 'react-native-paper/lib/typescript/styles/colors';
 
 export default function About(props) {
   let {name, image, description} = props.route.params;
@@ -21,7 +20,6 @@ const RestaurantImage = props => (
 const RestaurantName = props => (
   <Text
     style={{
-      color: 'black',
       fontSize: 29,
       fontWeight: '600',
       marginTop: 10,
@@ -34,7 +32,6 @@ const RestaurantName = props => (
 const RestaurantDescription = props => (
   <Text
     style={{
-      color: 'black',
       marginTop: 10,
       marginHorizontal: 15,
       fontWeight: '400',

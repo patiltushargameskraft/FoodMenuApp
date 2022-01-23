@@ -1,18 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {View, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
-const styles = StyleSheet.create({
-  colorLight: {
-    color: '#aaa',
-    alignSelf: 'center',
-  },
-  colorDark: {
-    color: '#000',
-    alignSelf: 'center',
-  },
-});
 
 export default function BottomTabs({navigation, tab}) {
   return (
@@ -56,8 +45,20 @@ export const MyIcon = ({name, size, onPressGo, tab}) => (
     <Icon
       name={name}
       size={size}
-      color="#aaa"
+      color="orange"
       style={tab === name ? styles.colorDark : styles.colorLight}
     />
   </TouchableOpacity>
 );
+
+const styles = StyleSheet.create({
+  colorLight: {
+    color: '#aaa',
+    alignSelf: 'center',
+  },
+  colorDark: {
+    color: 'orange',
+    alignSelf: 'center',
+  },
+});
+

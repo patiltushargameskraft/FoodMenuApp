@@ -5,7 +5,7 @@ import {Divider} from 'react-native-elements';
 import BottomTabs from '../components/home/BottomTabs';
 import RestaurantItems from '../components/home/RestaurantItems';
 import axios from 'axios';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 
 export default function Home({navigation}) {
   const [fav, setFav] = useState([]);
@@ -25,7 +25,6 @@ export default function Home({navigation}) {
       <ScrollView showsVerticalScrollIndicator={false}>
         <Text
           style={{
-            color: 'black',
             marginLeft: 10,
             fontSize: 30,
             fontWeight: 'bold',
@@ -35,7 +34,7 @@ export default function Home({navigation}) {
         <RestaurantItems restaurantData={fav} navigation={navigation} />
       </ScrollView>
       <Divider width={1} />
-      <BottomTabs navigation={navigation} tab="heart" />
+      <BottomTabs navigation={navigation} tab="heart"/>
     </SafeAreaView>
   );
 }

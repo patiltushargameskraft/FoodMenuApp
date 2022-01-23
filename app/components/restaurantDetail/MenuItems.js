@@ -1,51 +1,63 @@
 /* eslint-disable no-shadow */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Image, ScrollView, Modal} from 'react-native';
+import {View, Text, StyleSheet, Image, ScrollView, Modal, SafeAreaView, Alert} from 'react-native';
 import {Divider} from 'react-native-elements';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import axios from 'axios';
 import {Button} from 'react-native-elements/dist/buttons/Button';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
-import {useSelector} from 'react-redux';
-
-const styles = StyleSheet.create({
-  menuItemStyle: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    margin: 20,
-    color: 'black',
-  },
-  catStyle: {
-    fontSize: 21,
-    fontWeight: '700',
-    textAlign: 'center',
-    color: 'black',
-  },
-  titleStyle: {
-    fontSize: 19,
-    fontWeight: '900',
-    color: 'black',
-  },
-});
+import { modifyItemInCartThunk } from '../../redux/reducers/cartReducer';
 
 export default function MenuItems({
-  restaurantId,
   foods,
   marginLeft,
   navigation,
 }) {
-  const arr = new Array(10).fill(0);
-
-  const [counter, setCounter] = useState(arr);
   const [modalVisible, setModalVisible] = useState(false);
   const [addOn, setAddOn] = useState([]);
   const [selectedAddOn, setSelectedAddOn] = useState([]);
   const [selectedFood, setSelectedFood] = useState(null);
-  const {userId} = useSelector(state => state.userReducer);
+  const {restaurantId: resIdInCart} = useSelector(state => state.cartReducer.selectedItems);
+  const cartItems = useSelector(state => state.cartReducer.selectedItems.items);
 
-  console.log(userId);
+  const createTwoButtonAlert = (food) =>
+    Alert.alert(
+      "Your Cart has Items from a Different Restaurant",
+      "Empty Cart and Proceed",
+      [
+        {
+          text: "Cancel",
+          onPress: () => {
+            setSelectedAddOn([]);
+            setSelectedFood(null);
+            setModalVisible(false);
+          },
+          style: "cancel"
+        },
+        { 
+          text: "Yes",
+          onPress: () => {
+            getAddOn(food.id).then(res => {
+              const addons = res.data.data;
+              if(addons.length) {
+                setAddOn(addons);
+                setSelectedFood(food);
+                setModalVisible(true);
+              }
+              else {
+                const foodWithAddons = food;
+                foodWithAddons.addons = [];
+                selectItem(foodWithAddons, 1, '+');
+                setSelectedAddOn([]);
+              }
+            }).catch(err => {
+              throw err;
+            })
+          }
+        }
+      ]
+    );
 
   const dispatch = useDispatch();
 
@@ -54,85 +66,69 @@ export default function MenuItems({
       navigation.navigate('ViewCart');
       return;
     }
-    console.log('item in selected Item', item);
-    dispatch({
-      type: 'ADD_TO_CART',
-      payload: {
-        ...{id: item.id, qty: number, addons: selectedAddOn, price: item.price},
-        restaurantId: item.restaurant_id,
-        counterType: counterType,
-        userId: userId,
-      },
-    });
-
-    setSelectedAddOn([]);
+    dispatch(modifyItemInCartThunk(item, number, counterType, item.restaurant_id));
   };
 
-  useEffect(() => {
-    const getData = async () => {
-      const response = await Promise.all(
-        foods.map(food => {
-          return axios
-            .get(
-              `https://food-menu-app-backend.herokuapp.com/dish/getInstancesInCart/${userId}/${food.id}`,
-            )
-            .then(res => res.data.data[0].count)
-            .catch(err => console.log('menuItem page: ', userId, err));
-        }),
-      );
-      console.log(response);
-      setCounter(response);
-    };
-    getData();
-  }, [foods]);
+
+  const isFoodInCart = (foodId) => {
+    let count = 0;
+    for(let i = 0; i < cartItems.length; i++){
+      if(foodId === cartItems[i].dish_id){
+        count+=cartItems[i].quantity;
+      }
+    }
+    return count;
+  }
+
+  const dishCount = foods.map(food => isFoodInCart(food.id));
 
   const getAddOn = foodId => {
-    axios
-      .get(
-        `https://food-menu-app-backend.herokuapp.com/dish/getAddons/${foodId}`,
-      )
-      .then(res => {
-        setAddOn(res.data.data);
-      });
+    return axios.get(`https://food-menu-app-backend.herokuapp.com/dish/getAddons/${foodId}`);
   };
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       {foods.map((food, index) => (
         <View key={index}>
-          {/* <Text style={styles.catStyle}>{food.cat}</Text> */}
           <View style={styles.menuItemStyle}>
             <View
-              style={{flexDirection: 'row', justifyContent: 'space-around'}}>
+              style={{flexDirection: 'row', justifyContent: 'space-around', alignContent: 'center'}}>
               <Button
                 title="+"
                 buttonStyle={{
-                  color: 'black',
                   backgroundColor: '#000',
                   marginTop: 30,
                   marginRight: 5,
-                  width: 25,
+                  alignSelf: 'center'
                 }}
                 onPress={() => {
-                  setSelectedFood(food);
-                  getAddOn(food.id);
-                  setModalVisible(true);
-                  let newArr = counter;
-                  counter[index] = counter[index] + 1;
-                   setCounter([...newArr]);
-                  console.log('counter increased: ', counter[index]);
+                  console.log('resIdIncCart', resIdInCart, 'foodRes', food.restaurant_id);
+                  if(resIdInCart && resIdInCart !== food.restaurant_id){
+                    createTwoButtonAlert(food);
+                  }else{
+                    getAddOn(food.id).then(res => {
+                      const addons = res.data.data;
+                      if(addons.length) {
+                        setAddOn(addons);
+                        setSelectedFood(food);
+                        setModalVisible(true);
+                      }
+                      else {
+                        const foodWithAddons = food;
+                        foodWithAddons.addons = [];
+                        selectItem(foodWithAddons, 1, '+');
+                        setSelectedAddOn([]);
+                      }
+                    }).catch(err => {
+                      throw err;
+                    })
+                  }
                 }}
               />
-              <Text style={{color: 'black'}}>
-                {counter[index] ? counter[index] : 0}
-              </Text>
+              <Text style={{margin: 5}}>{dishCount[index]}</Text>
               <Button
                 title="-"
-                buttonStyle={{
-                  backgroundColor: '#000',
-                  marginTop: 30,
-                  width: 25,
-                }}
+                buttonStyle={{backgroundColor: '#000', marginTop: 30, alignSelf: 'center'}}
                 onPress={() => {
                   selectItem(food, 1, '-');
                 }}
@@ -142,17 +138,20 @@ export default function MenuItems({
             <FoodImage food={food} marginLeft={marginLeft ? marginLeft : 0} />
           </View>
           {modalVisible ? (
-            <Modal>
+            <Modal style={{flex: 1}}>
               <SafeAreaView>
-                <View>
-                  <Text
-                    style={{
-                      padding: 10,
-                      backgroundColor: '#000',
-                      color: '#fff',
-                    }}>
-                    Please Select Add Ons
-                  </Text>
+                <View style={{marginBottom: 20}}>
+                  <View>
+                    <Text
+                      style={{
+                        padding: 10,
+                        backgroundColor: '#000',
+                        color: '#fff',
+                        alignSelf: 'center',
+                      }}>
+                      Please Select Add Ons
+                    </Text>
+                  </View>
                   {addOn.map((item, index) => (
                     <View key={index}>
                       <BouncyCheckbox
@@ -171,26 +170,40 @@ export default function MenuItems({
                               ),
                             ]);
                           }
-                          console.log('Addon Items: ', selectedAddOn);
                         }}
                       />
                     </View>
                   ))}
+                  <View style={{justifyContent: 'center', alignItems: 'center', margin: 10}}>
+                    <Text style={{color: 'grey'}}>
+                      Note: A minimum of {selectedFood.min_addon} and A maximum of {selectedFood.max_addon} addons
+                    </Text>
+                    <Text style={{color: 'grey'}}>
+                      need to be selected to proceed for order
+                    </Text>
+                  </View>
                   <Button
                     buttonStyle={{backgroundColor: '#000', margin: 10}}
                     title="Back"
                     onPress={() => {
                       setSelectedAddOn([]);
                       setModalVisible(false);
-                      
                     }}
                   />
                   <Button
                     buttonStyle={{backgroundColor: '#000', margin: 10}}
                     title="Done"
                     onPress={() => {
+                      if(selectedAddOn.length < selectedFood.min_addon || selectedAddOn.length > selectedFood.max_addon){
+                        alert(`Note: A minimum of ${selectedFood.min_addon} and A maximum of ${selectedFood.max_addon} addons can be selected`)
+                        return;
+                      }
+                      const foodWithAddons = selectedFood;
+                      foodWithAddons.addons = selectedAddOn;
+                      foodWithAddons.addons.sort((a, b) => a.id - b.id);
                       setModalVisible(false);
-                      selectItem(selectedFood, 1, '+');
+                      selectItem(foodWithAddons, 1, '+');
+                      setSelectedAddOn([]);
                     }}
                   />
                 </View>
@@ -210,11 +223,12 @@ export default function MenuItems({
   );
 }
 
+
 const FoodInfo = props => (
   <View style={{width: 150, justifyContent: 'space-evenly', marginLeft: 10}}>
     <Text style={styles.titleStyle}>{props.food.name}</Text>
-    <Text style={{color: 'black'}}>{props.food.description}</Text>
-    <Text style={{color: 'black'}}>{props.food.price}</Text>
+    <Text>{props.food.description}</Text>
+    <Text>{props.food.price}</Text>
   </View>
 );
 
@@ -231,3 +245,24 @@ const FoodImage = ({marginLeft, ...props}) => (
     />
   </View>
 );
+
+
+
+const styles = StyleSheet.create({
+  menuItemStyle: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    margin: 20,
+  },
+
+  catStyle: {
+    fontSize: 21,
+    fontWeight: '700',
+    textAlign: 'center',
+  },
+
+  titleStyle: {
+    fontSize: 19,
+    fontWeight: '600',
+  },
+});
