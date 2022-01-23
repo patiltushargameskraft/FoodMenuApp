@@ -42,7 +42,7 @@ export default function Login({navigation}) {
           alert('Username or Password Incorrect');
         }
       })
-      .catch(err => console.log('log in', err));
+      .catch(err => {alert("There was a problem connecting to the database")});
   };
 
   return (
