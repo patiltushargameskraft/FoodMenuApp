@@ -39,7 +39,7 @@ export default function RestaurantDetail({route, navigation}) {
         console.log('set  ' + fav[i].id);
       }
     }
-  }, [route.params.resId]);
+  }, []);
 
   const Delete = x => {
     axios

@@ -6,6 +6,7 @@ import BottomTabs from '../components/home/BottomTabs';
 import Categories from '../components/home/Categories';
 import RestaurantItems from '../components/home/RestaurantItems';
 import axios from 'axios';
+import {Button} from 'react-native-elements/dist/buttons/Button';
 
 export default function Home({navigation}) {
   const [promotedRes, setPromotedRes] = useState([]);
@@ -30,6 +31,7 @@ export default function Home({navigation}) {
           }}>
           Welcome
         </Text>
+        <Button title="login" onPress={() => navigation.navigate('Login')} />
         <RestaurantItems restaurantData={promotedRes} navigation={navigation} />
       </ScrollView>
       <Divider width={1} />

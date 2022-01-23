@@ -21,7 +21,11 @@ export default function Login({navigation}) {
       })
       .then(res => {
         console.log(res.data.data);
-        navigation.navigate('Home');
+        if (res.data.success) {
+          navigation.navigate('Home');
+        } else {
+          alert('Please enter correct details!!!');
+        }
       })
       .catch(err => console.log('log in', err));
   };
