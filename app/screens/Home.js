@@ -12,11 +12,11 @@ export default function Home({navigation}) {
 
   useEffect(() => {
     axios
-      .get('http://food-menu-app-backend.herokuapp.com/')
+      .get('https://food-menu-app-backend.herokuapp.com/')
       .then(res => {
         setPromotedRes(res.data.data);
       })
-      .catch(err => console.log(err));
+      .catch(err => console.log('Home page', err));
   }, []);
 
   return (

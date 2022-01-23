@@ -9,6 +9,8 @@ import configureStore from './redux/store';
 import OrderCompleted from './screens/OrderCompleted';
 import ViewCart from './screens/ViewCart';
 import Fav from './screens/Fav';
+import Login from './screens/Login';
+import Signup from './screens/Signup';
 
 const store = configureStore();
 
@@ -22,13 +24,15 @@ export default function RootNavigation() {
   return (
     <ReduxProvider store={store}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home" screenOptions={screenOptions}>
+        <Stack.Navigator initialRouteName="Login" screenOptions={screenOptions}>
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="RestaurantDetail" component={RestaurantDetail} />
           <Stack.Screen name="OrderCompleted" component={OrderCompleted} />
           <Stack.Screen name="ViewCart" component={ViewCart} />
           <Stack.Screen name="Search" component={Search} />
           <Stack.Screen name="Fav" component={Fav} />
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Signup" component={Signup} />
         </Stack.Navigator>
       </NavigationContainer>
     </ReduxProvider>

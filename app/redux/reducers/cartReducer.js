@@ -21,7 +21,9 @@ const addItemToCart = (quantity, userId, dishId, addons) => {
 
 const removeItemFromCart = orderId => {
   axios
-    .delete(`https://food-menu-app-backend.herokuapp.com/cart/deleteFromCart/1/${orderId}`)
+    .delete(
+      `https://food-menu-app-backend.herokuapp.com/cart/deleteFromCart/1/${orderId}`,
+    )
     .catch(err => {
       console.log(err);
       throw err;
@@ -31,10 +33,11 @@ const removeItemFromCart = orderId => {
 
 const removeAllItemFromCart = () => {
   axios
-    .delete('https://food-menu-app-backend.herokuapp.com/cart/checkOutCartItems/1')
+    .delete(
+      'https://food-menu-app-backend.herokuapp.com/cart/checkOutCartItems/1',
+    )
     .catch(err => {
       console.log(err);
-      throw err;
     })
     .then(() => console.log('Removed All from cart'));
 };
