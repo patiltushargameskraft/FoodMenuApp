@@ -15,10 +15,10 @@ export default function Signup({navigation}) {
   const [password, setPassword] = useState('');
 
   const handleSignup = () => {
-    if(!email){
+    if (!email) {
       alert('please enter a valid username');
-    }else if(!password && password.length < 3){
-      alert('Please Make sure password contains atleast 3 characters')
+    } else if (!password && password.length < 3) {
+      alert('Please Make sure password contains atleast 3 characters');
     }
     axios
       .post('https://food-menu-app-backend.herokuapp.com/user/signup/', {
@@ -26,16 +26,12 @@ export default function Signup({navigation}) {
         password: password,
       })
       .then(res => {
-<<<<<<< HEAD
         console.log(res.data.data);
-        navigation.navigate('Login');
-=======
-        if(res.data.success)
-          navigation.navigate('Home');
-        else{
-          alert('Username already exists, Please try another username')
+        if (res.data.success) {
+          navigation.navigate('Login');
+        } else {
+          alert('Username already exists, Please try another username');
         }
->>>>>>> 0c0d2065bf1c7aac436bffd096b56f303301c35e
       })
       .catch(err => console.log('sign up', err));
   };

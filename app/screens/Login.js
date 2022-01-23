@@ -42,7 +42,7 @@ export default function Login({navigation}) {
           alert('Username or Password Incorrect');
         }
       })
-      .catch(err => {alert("There was a problem connecting to the database")});
+      .catch(err => console.log(err));
   };
 
   return (
@@ -57,7 +57,7 @@ export default function Login({navigation}) {
         <TextInput
           style={styles.inputs}
           placeholder="username"
-          placeholderTextColor="grey" 
+          placeholderTextColor="grey"
           keyboardType="email-address"
           underlineColorAndroid="transparent"
           onChangeText={text => setEmail(text)}
