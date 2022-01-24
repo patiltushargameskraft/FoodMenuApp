@@ -113,7 +113,7 @@ export default function MenuItems({
                   setModalVisible(true);
                   let newArr = counter;
                   counter[index] = counter[index] + 1;
-                  setCounter([...newArr]);
+                   setCounter([...newArr]);
                   console.log('counter increased: ', counter[index]);
                 }}
               />
@@ -170,6 +170,15 @@ export default function MenuItems({
                       />
                     </View>
                   ))}
+                  <Button
+                    buttonStyle={{backgroundColor: '#000', margin: 10}}
+                    title="Back"
+                    onPress={() => {
+                      setSelectedAddOn([]);
+                      setModalVisible(false);
+                      
+                    }}
+                  />
                   <Button
                     buttonStyle={{backgroundColor: '#000', margin: 10}}
                     title="Done"
