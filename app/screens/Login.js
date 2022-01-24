@@ -4,7 +4,6 @@ import {
   Text,
   View,
   TextInput,
-  TouchableHighlight,
   Image,
 } from 'react-native';
 import axios from 'axios';

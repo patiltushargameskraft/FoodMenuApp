@@ -6,8 +6,6 @@ import BottomTabs from '../components/home/BottomTabs';
 import RestaurantItems from '../components/home/RestaurantItems';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { getOrdersThunk } from '../redux/reducers/cartReducer';
-import { loadFavResThunk } from '../redux/reducers/favReducer';
 
 export default function Home({navigation}) {
   const [promotedRes, setPromotedRes] = useState([]);

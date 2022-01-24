@@ -1,6 +1,6 @@
 /* eslint-disable no-shadow */
 /* eslint-disable react-native/no-inline-styles */
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {View, Text, StyleSheet, Image, ScrollView, Modal, SafeAreaView, Alert} from 'react-native';
 import {Divider} from 'react-native-elements';
 import {useDispatch, useSelector} from 'react-redux';

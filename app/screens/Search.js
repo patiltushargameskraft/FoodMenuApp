@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+import React from 'react';
 import {SafeAreaView} from 'react-native';
 import {Divider} from 'react-native-elements';
 import BottomTabs from '../components/home/BottomTabs';

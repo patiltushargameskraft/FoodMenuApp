@@ -5,11 +5,9 @@ import {
   Text,
   View,
   TextInput,
-  TouchableHighlight,
   Image,
   TouchableOpacity,
 } from 'react-native';
-import { useDispatch } from 'react-redux';
 
 export default function Signup({navigation}) {
   const [email, setEmail] = useState('');
