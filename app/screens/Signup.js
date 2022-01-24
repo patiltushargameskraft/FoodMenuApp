@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import axios from 'axios';
 import React, {useState} from 'react';
 import {
@@ -15,10 +16,10 @@ export default function Signup({navigation}) {
 
   const handleSignup = () => {
     console.log('email, password', email, password);
-    if(!email){
+    if (!email) {
       alert('please enter a valid username');
-    }else if(!password && password.length < 3){
-      alert('Please Make sure password contains atleast 3 characters')
+    } else if (!password && password.length < 3) {
+      alert('Please Make sure password contains atleast 3 characters');
     }
     axios
       .post('https://food-menu-app-backend.herokuapp.com/user/signup/', {
@@ -26,11 +27,10 @@ export default function Signup({navigation}) {
         password: password,
       })
       .then(res => {
-        if(res.data.success){
+        if (res.data.success) {
           navigation.navigate('Login');
-        }
-        else{
-          alert('Username already exists, Please try another username')
+        } else {
+          alert('Username already exists, Please try another username');
         }
       })
       .catch(err => console.log('sign up', err));
@@ -38,6 +38,17 @@ export default function Signup({navigation}) {
 
   return (
     <View style={styles.container}>
+      <View>
+        <Text
+          style={{
+            color: 'black',
+            margin: 20,
+            fontSize: 40,
+            fontWeight: 'bold',
+          }}>
+          Sign Up
+        </Text>
+      </View>
       <View style={styles.inputContainer}>
         <Image
           style={styles.inputIcon}
@@ -83,7 +94,7 @@ export default function Signup({navigation}) {
         onPress={() => {
           navigation.navigate('Login');
         }}>
-        <Text>Already have an account? Login</Text>
+        <Text style={{color: 'black'}}>Already have an account? Login</Text>
       </TouchableOpacity>
     </View>
   );

@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View, TextInput, Image} from 'react-native';
 import axios from 'axios';
@@ -26,7 +27,10 @@ export default function Login({navigation}) {
       try {
         const value = await AsyncStorage.getItem('userId');
         if (value !== null) {
-          setUserId(parseInt(value, 10));
+          const userId1 = parseInt(value, 10);
+          setUserId(userId1);
+          dispatch(getOrdersThunk(userId1));
+          dispatch(loadFavResThunk(userId1));
           console.log('user already login');
           navigation.navigate('Home');
         }
@@ -71,6 +75,17 @@ export default function Login({navigation}) {
 
   return (
     <View style={styles.container}>
+      <View>
+        <Text
+          style={{
+            color: 'black',
+            margin: 20,
+            fontSize: 40,
+            fontWeight: 'bold',
+          }}>
+          Log In
+        </Text>
+      </View>
       <View style={styles.inputContainer}>
         <Image
           style={styles.inputIcon}
@@ -114,7 +129,7 @@ export default function Login({navigation}) {
         onPress={() => {
           navigation.navigate('Signup');
         }}>
-        <Text>New Here? Signup here</Text>
+        <Text style={{color: 'black'}}>New Here? Signup here</Text>
       </TouchableOpacity>
     </View>
   );
