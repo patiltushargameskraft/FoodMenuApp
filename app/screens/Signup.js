@@ -20,8 +20,8 @@ export default function Signup({navigation}) {
         password: password,
       })
       .then(res => {
-        console.log(res.data.data);
-        navigation.navigate('Home');
+        if(res.data.success)
+          navigation.navigate('Home');
       })
       .catch(err => console.log('sign up', err));
   };
@@ -40,7 +40,7 @@ export default function Signup({navigation}) {
           placeholder="Email"
           keyboardType="email-address"
           underlineColorAndroid="transparent"
-          onChangeText={text => setEmail({text})}
+          onChangeText={text => setEmail(text)}
         />
       </View>
 
@@ -54,7 +54,7 @@ export default function Signup({navigation}) {
           placeholder="Password"
           secureTextEntry={true}
           underlineColorAndroid="transparent"
-          onChangeText={text => setPassword({text})}
+          onChangeText={text => setPassword(text)}
         />
       </View>
 

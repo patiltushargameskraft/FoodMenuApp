@@ -20,11 +20,10 @@ export default function Login({navigation}) {
         password: password,
       })
       .then(res => {
-        console.log(res.data.data);
-        if (res.data.success) {
+        if (res.data.data.length) {
           navigation.navigate('Home');
         } else {
-          alert('Please enter correct details!!!');
+          alert('Username or Password Incorrect');
         }
       })
       .catch(err => console.log('log in', err));
@@ -44,7 +43,7 @@ export default function Login({navigation}) {
           placeholder="Email"
           keyboardType="email-address"
           underlineColorAndroid="transparent"
-          onChangeText={text => setEmail({text})}
+          onChangeText={text => setEmail(text)}
         />
       </View>
 
@@ -58,7 +57,7 @@ export default function Login({navigation}) {
           placeholder="Password"
           secureTextEntry={true}
           underlineColorAndroid="transparent"
-          onChangeText={text => setPassword({text})}
+          onChangeText={text => setPassword(text)}
         />
       </View>
 
