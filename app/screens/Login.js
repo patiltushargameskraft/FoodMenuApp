@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
 import {
   StyleSheet,
@@ -9,18 +8,16 @@ import {
   Image,
 } from 'react-native';
 import axios from 'axios';
-import {useDispatch} from 'react-redux';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import { black } from 'react-native-paper/lib/typescript/styles/colors';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { useDispatch } from 'react-redux';
+
 
 export default function Login({navigation}) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
   const dispatch = useDispatch();
 
   const setUserId = userId => {
-    console.log('userId: ', userId);
     dispatch({
       type: 'USER',
       payload: {
@@ -30,21 +27,26 @@ export default function Login({navigation}) {
   };
 
   const handleLogin = () => {
+    console.log(email, password);
     axios
-      .post('https://food-menu-app-backend.herokuapp.com/user/login/', {
+      .post("https://food-menu-app-backend.herokuapp.com/user/login", {
         username: email,
         password: password,
       })
       .then(res => {
-        console.log(res.data.data);
-        if (res.data.success) {
+        if (res.data.data.length) {
           setUserId(res.data.data[0].id);
-          navigation.navigate('Home');
+          setTimeout(() => {
+            navigation.navigate('Home');
+          }, 1000)
         } else {
           alert('Username or Password Incorrect');
         }
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        alert("There was a problem connecting to the database");
+        console.log(err);
+      });
   };
 
   return (
@@ -59,7 +61,7 @@ export default function Login({navigation}) {
         <TextInput
           style={styles.inputs}
           placeholder="username"
-          placeholderTextColor="black"
+          placeholderTextColor="grey"
           keyboardType="email-address"
           onChangeText={text => setEmail(text)}
         />
@@ -73,7 +75,7 @@ export default function Login({navigation}) {
         <TextInput
           style={styles.inputs}
           placeholder="Password"
-          placeholderTextColor="black"
+          placeholderTextColor="grey"
           secureTextEntry={true}
           onChangeText={text => setPassword(text)}
         />
@@ -92,7 +94,7 @@ export default function Login({navigation}) {
         onPress={() => {
           navigation.navigate('Signup');
         }}>
-        <Text style={{color: 'black'}}>New Here? Signup here</Text>
+        <Text>New Here? Signup here</Text>
       </TouchableOpacity>
     </View>
   );
@@ -117,9 +119,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   inputs: {
-    color: 'black',
     height: 45,
     marginLeft: 16,
+    color: 'black',
     borderBottomColor: '#FFFFFF',
     flex: 1,
   },

@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import axios from 'axios';
 import React, {useState} from 'react';
 import {
@@ -6,19 +5,22 @@ import {
   Text,
   View,
   TextInput,
+  TouchableHighlight,
   Image,
   TouchableOpacity,
 } from 'react-native';
+import { useDispatch } from 'react-redux';
 
 export default function Signup({navigation}) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSignup = () => {
-    if (!email) {
+    console.log('email, password', email, password);
+    if(!email){
       alert('please enter a valid username');
-    } else if (!password && password.length < 3) {
-      alert('Please Make sure password contains atleast 3 characters');
+    }else if(!password && password.length < 3){
+      alert('Please Make sure password contains atleast 3 characters')
     }
     axios
       .post('https://food-menu-app-backend.herokuapp.com/user/signup/', {
@@ -26,11 +28,11 @@ export default function Signup({navigation}) {
         password: password,
       })
       .then(res => {
-        console.log(res.data.data);
-        if (res.data.success) {
+        if(res.data.success){
           navigation.navigate('Login');
-        } else {
-          alert('Username already exists, Please try another username');
+        }
+        else{
+          alert('Username already exists, Please try another username')
         }
       })
       .catch(err => console.log('sign up', err));
@@ -48,8 +50,9 @@ export default function Signup({navigation}) {
         <TextInput
           style={styles.inputs}
           placeholder="username"
-          placeholderTextColor="black"
+          placeholderTextColor="grey"
           keyboardType="email-address"
+          underlineColorAndroid="transparent"
           onChangeText={text => setEmail(text)}
         />
       </View>
@@ -62,8 +65,9 @@ export default function Signup({navigation}) {
         <TextInput
           style={styles.inputs}
           placeholder="Password"
-          placeholderTextColor="black"
+          placeholderTextColor="grey"
           secureTextEntry={true}
+          underlineColorAndroid="transparent"
           onChangeText={text => setPassword(text)}
         />
       </View>
@@ -81,7 +85,7 @@ export default function Signup({navigation}) {
         onPress={() => {
           navigation.navigate('Login');
         }}>
-        <Text style={{color: 'black'}}>Already have an account? Login</Text>
+        <Text>Already have an account? Login</Text>
       </TouchableOpacity>
     </View>
   );
@@ -106,9 +110,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   inputs: {
-    color: 'black',
     height: 45,
     marginLeft: 16,
+    color: 'black',
     borderBottomColor: '#FFFFFF',
     flex: 1,
   },

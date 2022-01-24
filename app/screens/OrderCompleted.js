@@ -4,39 +4,10 @@ import {View, Text, SafeAreaView, ScrollView} from 'react-native';
 import {useSelector} from 'react-redux';
 import LottieView from 'lottie-react-native';
 import axios from 'axios';
+import { Button } from 'react-native-elements/dist/buttons/Button';
 
-export default function OrderCompleted() {
-  const {restaurantId} = useSelector(state => state.cartReducer.selectedItems);
-  const [data, setData] = useState([]);
-  const {userId} = useSelector(state => state.userReducer);
-
-  const getOrders = () => {
-    axios
-      .get(`https://food-menu-app-backend.herokuapp.com/cart/${userId}`)
-      .then(res => {
-        setData(res.data.data);
-      })
-      .catch(err => {
-        console.log(err);
-        throw err;
-      });
-  };
-
-  const checkOutOrders = () => {
-    axios
-      .delete(
-        `https://food-menu-app-backend.herokuapp.com/cart/checkOutCartItems/${userId}`,
-      )
-      .catch(err => {
-        console.log(err);
-        throw err;
-      });
-  };
-
-  useEffect(() => {
-    getOrders();
-    checkOutOrders();
-  }, []);
+export default function OrderCompleted({route, navigation}) {
+  const {restaurantName, cartTotal} = route.params;
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
@@ -53,8 +24,8 @@ export default function OrderCompleted() {
           speed={0.5}
           loop={false}
         />
-        <Text style={{color: 'black', fontSize: 20, fontWeight: 'bold'}}>
-          Your order has been placed
+        <Text style={{fontSize: 20, fontWeight: 'bold'}}>
+          Your order at {restaurantName} has been placed for {cartTotal.reduce((a,b) => a + b, 0)}
         </Text>
         <ScrollView>
           <LottieView
@@ -63,6 +34,24 @@ export default function OrderCompleted() {
             autoPlay
             speed={0.5}
           />
+          <Button
+          title="BROWSE RESTAURANTS"
+          buttonStyle={{
+          borderColor: 'rgba(78, 116, 289, 1)',
+          padding: 10,
+          }}
+          type="outline"
+          raised
+          titleStyle={{ color: 'orange', fontSize: 15 }}
+          containerStyle={{
+          marginHorizontal: 50,
+          marginVertical: 50,
+          alignSelf: 'center',
+          }}
+          onPress={() => {
+            navigation.navigate('Home')
+          }}
+        />
         </ScrollView>
       </View>
     </SafeAreaView>

@@ -16,7 +16,6 @@ const total = item => {
 
 export default function OrderItem({item}) {
   const {id, price, name} = item;
-  console.log('addons in order Item', item.addons);
   return (
     <View>
       <View
@@ -32,14 +31,13 @@ export default function OrderItem({item}) {
         <Text style={{color: 'black', opacity: 0.7, fontSize: 16, margin: 2}}>
           ₹ {renderTotal(total(item))}
         </Text>
-        <Text style={{color: 'black'}}>Addons applied: </Text>
       </View>
       <FlatList
         horizontal
         data={item.addons}
         renderItem={({item: rowData}) => {
           return (
-            <TouchableOpacity activeOpacity={0.5}>
+            <TouchableOpacity activeOpacity={0.5} style={{flex: 1}}>
               <Card>
                 <Text style={{color: 'black', marginBottom: 10}}>
                   {rowData.name}
@@ -56,7 +54,6 @@ export default function OrderItem({item}) {
 }
 
 const renderTotal = total => {
-  console.log('render Total', total);
   return (
     <Text style={{color: 'black'}}>
       {total[0]} {total[1] ? `+ ${total[1]}` : null}{' '}

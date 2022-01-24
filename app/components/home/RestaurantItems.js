@@ -1,7 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
-// import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default function RestaurantItems({navigation, ...props}) {
   return (
@@ -10,7 +9,7 @@ export default function RestaurantItems({navigation, ...props}) {
         <TouchableOpacity
           key={index}
           activeOpacity={1}
-          style={{marginBottom: 30}}
+          style={{marginBottom: 10}}
           onPress={() =>
             navigation.navigate('RestaurantDetail', {
               resId: restaurant.id,
@@ -37,9 +36,6 @@ const RestaurantImage = props => (
       }}
       style={{width: '100%', height: 180}}
     />
-    <TouchableOpacity style={{position: 'absolute', right: 20, top: 20}}>
-      {/* <MaterialCommunityIcons name="heart-outline" size={25} color="#fff" /> */}
-    </TouchableOpacity>
   </>
 );
 
@@ -52,10 +48,8 @@ const RestaurantInfo = props => (
       marginTop: 10,
     }}>
     <View>
-      <Text style={{fontSize: 15, fontWeight: 'bold', color: 'black'}}>
-        {props.name}
-      </Text>
-      <Text style={{fontSize: 13, color: 'black'}}>30-45 • min</Text>
+      <Text style={{fontSize: 15, fontWeight: 'bold'}}>{props.name}</Text>
+      <Text style={{fontSize: 13, color: 'gray'}}>30-45 • min</Text>
     </View>
   </View>
 );

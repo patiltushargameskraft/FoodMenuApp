@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable no-unused-vars */
 import React, {useEffect, useState} from 'react';
-
+import { Image } from 'react-native-elements';
 import {View, Text, Alert, StyleSheet} from 'react-native';
 import {Divider} from 'react-native-elements';
 import About from '../components/restaurantDetail/About';
@@ -11,53 +11,29 @@ import BottomTabs from '../components/home/BottomTabs';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import CheckBox from 'react-native-check-box';
 import {MyIcon} from '../components/home/BottomTabs';
-import {useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { addResToFavThunk, removeResFromFavThunk } from '../redux/reducers/favReducer';
+
 
 export default function RestaurantDetail({route, navigation}) {
-  const [foods, setfoods] = useState([]);
-  const [fav, setFav] = useState([]);
-  const [isChecked, setChecked] = useState(false);
-  const [present, setPresent] = useState(false);
   const {userId} = useSelector(state => state.userReducer);
-
+  const isResFav = useSelector(state => state.favReducer.isResFav);
+  const isChecked = isResFav[route.params.resId];
+  const dispatch = useDispatch();
+  const [foods, setfoods] = useState([]);
   useEffect(() => {
     axios
-      .get(
-        `https://food-menu-app-backend.herokuapp.com/restaurant/getDishes/${route.params.resId}`,
-      )
+      .get(`https://food-menu-app-backend.herokuapp.com/restaurant/getDishes/${route.params.resId}`)
       .then(res => {
         setfoods(res.data.data);
       });
-  }, [route.params.resId]);
-  useEffect(() => {
-    axios
-      .get(`https://food-menu-app-backend.herokuapp.com/getFavRes/${userId}`)
-      .then(res => {
-        setFav(res.data.data);
-      });
-    
   }, []);
-  useEffect(() => {
-    for (var i = 0; i < fav.length; i++) {
-      if (fav[i].id == route.params.resId) {
-        setChecked(true);
-        console.log('set  ' + fav[i].id);
-      }
-    }
-  })
-  const Delete = x => {
-    axios
-      .delete(
-        `https://food-menu-app-backend.herokuapp.com/restaurant/removeResFromFav/${userId}/${x}`,
-      )
-      .then(Alert.alert('Removed'));
+
+  const Delete = resId => {
+    dispatch(removeResFromFavThunk(userId, resId));
   };
-  const Add = x => {
-    axios
-      .post(
-        `https://food-menu-app-backend.herokuapp.com/restaurant/addResToFav/${userId}/${x}`,
-      )
-      .then(Alert.alert('Added'));
+  const Add = resId => {
+    dispatch(addResToFavThunk(userId, resId));
   };
 
   return (
@@ -72,11 +48,9 @@ export default function RestaurantDetail({route, navigation}) {
               } else {
                 Delete(route.params.resId);
               }
-              setChecked(!isChecked);
             }}
             isChecked={isChecked}
             rightText={'Favourite'}
-            rightTextStyle={{style: 'black'}}
           />
           <MyIcon
             name="search"
@@ -87,6 +61,7 @@ export default function RestaurantDetail({route, navigation}) {
                 resName: route.params.name,
               });
             }}
+            tab="search"
           />
         </View>
         <Divider width={1} />
