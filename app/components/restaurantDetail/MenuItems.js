@@ -1,5 +1,6 @@
 /* eslint-disable no-shadow */
 /* eslint-disable react-native/no-inline-styles */
+<<<<<<< HEAD
 import React, {useEffect, useState} from 'react';
 import {
   View,
@@ -11,6 +12,10 @@ import {
   SafeAreaView,
   Alert,
 } from 'react-native';
+=======
+import React, {useState} from 'react';
+import {View, Text, StyleSheet, Image, ScrollView, Modal, SafeAreaView, Alert} from 'react-native';
+>>>>>>> df07dcafa00a921d965fb6bf2a4c13ef0c6b5fff
 import {Divider} from 'react-native-elements';
 import {useDispatch, useSelector} from 'react-redux';
 import axios from 'axios';

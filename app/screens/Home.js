@@ -5,17 +5,19 @@ import {Divider, Text} from 'react-native-elements';
 import BottomTabs from '../components/home/BottomTabs';
 import RestaurantItems from '../components/home/RestaurantItems';
 import axios from 'axios';
+<<<<<<< HEAD
 import {useDispatch, useSelector} from 'react-redux';
 import {getOrdersThunk} from '../redux/reducers/cartReducer';
 import {loadFavResThunk} from '../redux/reducers/favReducer';
 import {Button} from 'react-native-elements/dist/buttons/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+=======
+>>>>>>> df07dcafa00a921d965fb6bf2a4c13ef0c6b5fff
 
 export default function Home({navigation}) {
   const [promotedRes, setPromotedRes] = useState([]);
-  const {userId} = useSelector(state => state.userReducer);
-  const dispatch = useDispatch();
   useEffect(() => {
+<<<<<<< HEAD
     axios
       .get('https://food-menu-app-backend.herokuapp.com/')
       .then(res => {
@@ -26,6 +28,14 @@ export default function Home({navigation}) {
       });
     dispatch(getOrdersThunk());
     dispatch(loadFavResThunk(userId));
+=======
+    axios.get('https://food-menu-app-backend.herokuapp.com/').then(res => {
+      setPromotedRes(res.data.data);
+    }).catch(err => {
+      console.log(err);
+      throw err;
+    });
+>>>>>>> df07dcafa00a921d965fb6bf2a4c13ef0c6b5fff
   }, []);
 
   const removeItemValue = async key => {

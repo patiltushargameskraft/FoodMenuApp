@@ -1,14 +1,37 @@
 import React, {useEffect, useState} from 'react';
+<<<<<<< HEAD
 import {StyleSheet, Text, View, TextInput, Image} from 'react-native';
 import axios from 'axios';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useDispatch} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+=======
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Image,
+} from 'react-native';
+import axios from 'axios';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { useDispatch, useSelector } from 'react-redux';
+import { getOrdersThunk } from '../redux/reducers/cartReducer';
+import { loadFavResThunk } from '../redux/reducers/favReducer';
+
+>>>>>>> df07dcafa00a921d965fb6bf2a4c13ef0c6b5fff
 
 export default function Login({navigation}) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
+  const {userId} = useSelector(state => state.userReducer);
+  
+  useEffect(() => {
+    if(userId !== '') 
+      navigation.navigate('Home');
+  });
+  
 
   const storeData = async value => {
     value = value.toString();
@@ -47,23 +70,29 @@ export default function Login({navigation}) {
   const handleLogin = () => {
     console.log(email, password);
     axios
-      .post('https://food-menu-app-backend.herokuapp.com/user/login', {
+      .post("https://food-menu-app-backend.herokuapp.com/user/login", {
         username: email,
         password: password,
       })
       .then(res => {
         if (res.data.data.length) {
+<<<<<<< HEAD
           setUserId(res.data.data[0].id);
           storeData(res.data.data[0].id);
           setTimeout(() => {
             navigation.navigate('Home');
           }, 1000);
+=======
+          const userId = res.data.data[0].id;
+          setUserId(userId);
+          dispatch(getOrdersThunk(userId));
+          dispatch(loadFavResThunk(userId));
+>>>>>>> df07dcafa00a921d965fb6bf2a4c13ef0c6b5fff
         } else {
           alert('Username or Password Incorrect');
         }
       })
       .catch(err => {
-        alert('There was a problem connecting to the database');
         console.log(err);
       });
   };

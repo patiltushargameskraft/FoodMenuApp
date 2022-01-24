@@ -1,8 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable no-unused-vars */
 import React, {useEffect, useState} from 'react';
-import { Image } from 'react-native-elements';
-import {View, Text, Alert, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import {Divider} from 'react-native-elements';
 import About from '../components/restaurantDetail/About';
 import MenuItems from '../components/restaurantDetail/MenuItems';
