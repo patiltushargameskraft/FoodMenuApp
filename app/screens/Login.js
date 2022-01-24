@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,13 +8,23 @@ import {
   Image,
 } from 'react-native';
 import axios from 'axios';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import {useDispatch} from 'react-redux';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { useDispatch, useSelector } from 'react-redux';
+import { getOrdersThunk } from '../redux/reducers/cartReducer';
+import { loadFavResThunk } from '../redux/reducers/favReducer';
+
 
 export default function Login({navigation}) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
+  const {userId} = useSelector(state => state.userReducer);
+  
+  useEffect(() => {
+    if(userId !== '') 
+      navigation.navigate('Home');
+  });
+  
 
   const setUserId = userId => {
     dispatch({
@@ -28,22 +38,21 @@ export default function Login({navigation}) {
   const handleLogin = () => {
     console.log(email, password);
     axios
-      .post('https://food-menu-app-backend.herokuapp.com/user/login', {
+      .post("https://food-menu-app-backend.herokuapp.com/user/login", {
         username: email,
         password: password,
       })
       .then(res => {
         if (res.data.data.length) {
-          setUserId(res.data.data[0].id);
-          setTimeout(() => {
-            navigation.navigate('Home');
-          }, 1000);
+          const userId = res.data.data[0].id;
+          setUserId(userId);
+          dispatch(getOrdersThunk(userId));
+          dispatch(loadFavResThunk(userId));
         } else {
           alert('Username or Password Incorrect');
         }
       })
       .catch(err => {
-        alert('There was a problem connecting to the database');
         console.log(err);
       });
   };

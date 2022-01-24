@@ -20,8 +20,6 @@ export default function Home({navigation}) {
       console.log(err);
       throw err;
     });
-    dispatch(getOrdersThunk());
-    dispatch(loadFavResThunk(userId));
   }, []);
 
   return (
