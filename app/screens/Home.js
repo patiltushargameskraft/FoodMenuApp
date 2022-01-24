@@ -5,12 +5,9 @@ import {Divider, Text} from 'react-native-elements';
 import BottomTabs from '../components/home/BottomTabs';
 import RestaurantItems from '../components/home/RestaurantItems';
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
 
 export default function Home({navigation}) {
   const [promotedRes, setPromotedRes] = useState([]);
-  const {userId} = useSelector(state => state.userReducer);
-  const dispatch = useDispatch();
   useEffect(() => {
     axios.get('https://food-menu-app-backend.herokuapp.com/').then(res => {
       setPromotedRes(res.data.data);
