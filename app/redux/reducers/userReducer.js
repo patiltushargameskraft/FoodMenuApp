@@ -13,6 +13,15 @@ let userReducer = (state = defaultState, action) => {
       return newState;
     }
 
+    case 'LOG_OUT': {
+      let newState = {...state};
+
+      newState.userId = null;
+      console.log('user state null: ', newState);
+
+      return newState;
+    }
+
     default:
       return state;
   }

@@ -20,6 +20,7 @@ const RestaurantImage = props => (
 const RestaurantName = props => (
   <Text
     style={{
+      color: 'black',
       fontSize: 29,
       fontWeight: '600',
       marginTop: 10,
@@ -32,6 +33,7 @@ const RestaurantName = props => (
 const RestaurantDescription = props => (
   <Text
     style={{
+      color: 'black',
       marginTop: 10,
       marginHorizontal: 15,
       fontWeight: '400',

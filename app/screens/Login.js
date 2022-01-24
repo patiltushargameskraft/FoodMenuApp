@@ -1,20 +1,39 @@
-import React, {useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  TouchableHighlight,
-  Image,
-} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {StyleSheet, Text, View, TextInput, Image} from 'react-native';
 import axios from 'axios';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useDispatch} from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Login({navigation}) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
+
+  const storeData = async value => {
+    value = value.toString();
+    try {
+      await AsyncStorage.setItem('userId', value);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const value = await AsyncStorage.getItem('userId');
+        if (value !== null) {
+          setUserId(parseInt(value, 10));
+          console.log('user already login');
+          navigation.navigate('Home');
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    getData();
+  }, []);
 
   const setUserId = userId => {
     dispatch({
@@ -35,6 +54,7 @@ export default function Login({navigation}) {
       .then(res => {
         if (res.data.data.length) {
           setUserId(res.data.data[0].id);
+          storeData(res.data.data[0].id);
           setTimeout(() => {
             navigation.navigate('Home');
           }, 1000);

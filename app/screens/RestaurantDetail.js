@@ -51,6 +51,7 @@ export default function RestaurantDetail({route, navigation}) {
             }}
             isChecked={isChecked}
             rightText={'Favourite'}
+            rightTextStyle={{color: 'black'}}
           />
           <MyIcon
             name="search"

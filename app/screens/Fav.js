@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 export default function Home({navigation}) {
   const [fav, setFav] = useState([]);
   const {userId} = useSelector(state => state.userReducer);
-
+  console.log('userId', userId);
   useEffect(() => {
     axios
       .get(`https://food-menu-app-backend.herokuapp.com/getFavRes/${userId}`)
@@ -25,6 +25,7 @@ export default function Home({navigation}) {
       <ScrollView showsVerticalScrollIndicator={false}>
         <Text
           style={{
+            color: 'black',
             marginLeft: 10,
             fontSize: 30,
             fontWeight: 'bold',
